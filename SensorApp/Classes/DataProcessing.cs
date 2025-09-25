@@ -30,7 +30,16 @@ namespace SensorApp.Classes
 
         public double findAverage(Dataset dataset)
         {
-        
+            double sum = 0;
+            int divisor = 0;
+
+            foreach (Double i in dataset.Data)
+            {
+                sum += i;
+                divisor++;
+            }
+
+            return sum / divisor;
         }
 
         //return array of matching value locations in active dataset
