@@ -41,7 +41,15 @@ namespace SensorApp.Classes
 
         public Double? ParseStringToDouble(String value)
         {
-            
+            if (double.TryParse(value, out double result))
+            {
+                return result;
+            }
+            else
+            {
+                UserFeedback.ShowError("Search Error, please enter a number.");
+                return null;
+            }
         }
     }
 }
