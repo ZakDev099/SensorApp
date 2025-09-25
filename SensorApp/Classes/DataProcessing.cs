@@ -36,7 +36,14 @@ namespace SensorApp.Classes
         //return array of matching value locations in active dataset
         public List<Tuple<int>> binarySearch(string targetString, Dataset dataset)
         {
-            
+            List<Tuple<int>> result = [];
+            var target = ParseStringToDouble(targetString);
+            if (target != null)
+            {
+                //binary search algo here (account for duplicates)
+            }
+
+            return result;
         }
 
         public Double? ParseStringToDouble(String value)
