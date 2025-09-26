@@ -1,6 +1,6 @@
 ﻿namespace SensorApp;
 
-public class Class1
+public class Program
 {
 
 }

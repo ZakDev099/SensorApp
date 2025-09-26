@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using SensorApp.classes;
 
 namespace SensorApp.Classes
 {
@@ -42,7 +43,7 @@ namespace SensorApp.Classes
             return sum / divisor;
         }
 
-        //return array of matching value locations in active dataset
+        //return array of matching target locations in active dataset
         public List<Tuple<int>> binarySearch(string targetString, Dataset dataset)
         {
             List<Tuple<int>> result = [];
