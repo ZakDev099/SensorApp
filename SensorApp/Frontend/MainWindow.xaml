@@ -7,6 +7,33 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="File"/>
+        </Menu>
+        <StackPanel Grid.Row="1" Grid.Column="0" Background="SlateGray">
+            <Grid Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0">
+                    Previous
+                </Button>
+                <Button Grid.Column="1">
+                    Next
+                </Button>
+            </Grid>
+        </StackPanel>
+        <UniformGrid Grid.Row="1" Grid.Column="1" Background="LightGray">
+            
+        </UniformGrid>
     </Grid>
 </Window>
