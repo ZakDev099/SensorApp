@@ -5,34 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SensorApp.Frontend"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Dashboard" Height="450" Width="800" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem Header="File"/>
-        </Menu>
-        <StackPanel Grid.Row="1" Grid.Column="0" Background="SlateGray">
-            <Grid Height="30">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0">
-                    Previous
-                </Button>
-                <Button Grid.Column="1">
-                    Next
-                </Button>
-            </Grid>
+        <DockPanel Grid.Column="1" Grid.Row="0" Margin="5" Background="{StaticResource Primary.BackgroundBrush}">
+            <Button Margin="0,0,0,0" Width="30" Height="20" DockPanel.Dock="Left" HorizontalAlignment="Left">
+                <!-- Placeholder -->
+                Prev
+            </Button>
+            <Button Margin="5,0,0,0" Width="30" Height="20" DockPanel.Dock="Left" HorizontalAlignment="Left">
+                <!-- Placeholder -->
+                Next
+            </Button>
+            <Button Margin="0,0,0,0" Width="20" Height="20" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <!-- Placeholder -->
+                L
+            </Button>
+            <Button Margin="0,0,5,0" Width="20" Height="20" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <!-- Placeholder -->
+                S
+            </Button>
+        </DockPanel>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Background="{StaticResource Primary.ForegroundBrush}">
+            <ListBox Height="30" Background="{StaticResource Primary.ForegroundBrush}" BorderBrush="{StaticResource Primary.ForegroundBrush}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Placeholder -->
+                        <TextBlock Text="MyDataset" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
-        <UniformGrid Grid.Row="1" Grid.Column="1" Background="LightGray">
+        <UniformGrid Grid.Row="1" Grid.Column="1" Background="{StaticResource Primary.MiddlegroundBrush}">
             
         </UniformGrid>
     </Grid>
