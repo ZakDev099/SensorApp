@@ -7,34 +7,69 @@
         mc:Ignorable="d"
         Title="Dashboard" Height="450" Width="800" WindowState="Maximized">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <DockPanel Grid.Column="1" Grid.Row="0" Margin="5" Background="{StaticResource Primary.BackgroundBrush}">
-            <Button Margin="0,0,0,0" Width="30" Height="20" DockPanel.Dock="Left" HorizontalAlignment="Left">
+        
+        
+        <DockPanel Grid.Column="1" 
+                   Grid.Row="0" 
+                   Margin="5" 
+                   Background="{StaticResource Primary.BackgroundBrush}">
+            
+            <Button Margin="0,0,0,0" 
+                    Width="30" 
+                    Height="20" 
+                    DockPanel.Dock="Left" 
+                    HorizontalAlignment="Left">
                 <!-- Placeholder -->
                 Prev
             </Button>
-            <Button Margin="5,0,0,0" Width="30" Height="20" DockPanel.Dock="Left" HorizontalAlignment="Left">
+            
+            <Button Margin="5,0,0,0" 
+                    Width="30" 
+                    Height="20" 
+                    DockPanel.Dock="Left" 
+                    HorizontalAlignment="Left">
                 <!-- Placeholder -->
                 Next
             </Button>
-            <Button Margin="0,0,0,0" Width="20" Height="20" DockPanel.Dock="Right" HorizontalAlignment="Right">
+            
+            <Button Margin="0,0,0,0" 
+                    Width="20" 
+                    Height="20" 
+                    DockPanel.Dock="Right" 
+                    HorizontalAlignment="Right">
                 <!-- Placeholder -->
                 L
             </Button>
-            <Button Margin="0,0,5,0" Width="20" Height="20" DockPanel.Dock="Right" HorizontalAlignment="Right">
+            
+            <Button Margin="0,0,5,0" 
+                    Width="20" 
+                    Height="20" 
+                    DockPanel.Dock="Right" 
+                    HorizontalAlignment="Right">
                 <!-- Placeholder -->
                 S
             </Button>
+            
         </DockPanel>
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Background="{StaticResource Primary.ForegroundBrush}">
-            <ListBox Height="30" Background="{StaticResource Primary.ForegroundBrush}" BorderBrush="{StaticResource Primary.ForegroundBrush}">
+        
+        
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.RowSpan="2"
+                    Background="{StaticResource Primary.ForegroundBrush}">
+            <ListBox Height="30" 
+                     Background="{StaticResource Primary.ForegroundBrush}" 
+                     BorderBrush="{StaticResource Primary.ForegroundBrush}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <!-- Placeholder -->
@@ -43,8 +78,20 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        <UniformGrid Grid.Row="1" Grid.Column="1" Background="{StaticResource Primary.MiddlegroundBrush}">
+        
+        
+        <DataGrid x:Name="DashboardDataGrid"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Background="{StaticResource Primary.MiddlegroundBrush}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             
-        </UniformGrid>
+        </DataGrid>
+        
     </Grid>
 </Window>
