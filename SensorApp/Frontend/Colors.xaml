@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- PALETTE -->
+    <Color x:Key="Primary.Foreground">#FF696969</Color>
+    <Color x:Key="Primary.Middleground">#FFD9D9D9</Color>
+    <Color x:Key="Primary.Background">#FFFFFFFF</Color>
+
+    <!-- BRUSHES -->
+    <SolidColorBrush x:Key="Primary.ForegroundBrush" Color="{StaticResource Primary.Foreground}"/>
+    <SolidColorBrush x:Key="Primary.MiddlegroundBrush" Color="{StaticResource Primary.Middleground}"/>
+    <SolidColorBrush x:Key="Primary.BackgroundBrush" Color="{StaticResource Primary.Background}"/>
+
+</ResourceDictionary>
