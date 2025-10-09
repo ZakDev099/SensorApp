@@ -1,0 +1,130 @@
+﻿<Window x:Class="SensorApp.MainWindow"
+        x:Name="UI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SensorApp"
+        mc:Ignorable="d"
+        Title="SensorApp" Height="450" Width="800" WindowState="Maximized">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="9*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+
+        <DockPanel Grid.Column="1" 
+                   Grid.Row="0" 
+                   Margin="5" 
+                   Background="{StaticResource Primary.BackgroundBrush}">
+
+            <Button Margin="0,0,0,0" 
+                    Width="30" 
+                    Height="20" 
+                    DockPanel.Dock="Left" 
+                    HorizontalAlignment="Left">
+                <!-- Placeholder -->
+                Prev
+            </Button>
+
+            <Button Margin="5,0,0,0" 
+                    Width="30" 
+                    Height="20" 
+                    DockPanel.Dock="Left" 
+                    HorizontalAlignment="Left">
+                <!-- Placeholder -->
+                Next
+            </Button>
+
+            <Button Margin="0,0,0,0" 
+                    Width="20" 
+                    Height="20" 
+                    DockPanel.Dock="Right" 
+                    HorizontalAlignment="Right">
+                <!-- Placeholder -->
+                L
+            </Button>
+
+            <Button Margin="0,0,5,0" 
+                    Width="20" 
+                    Height="20" 
+                    DockPanel.Dock="Right" 
+                    HorizontalAlignment="Right">
+                <!-- Placeholder -->
+                St
+            </Button>
+
+            <Button Margin="0,0,5,0" 
+                    Width="20" 
+                    Height="20" 
+                    DockPanel.Dock="Right" 
+                    HorizontalAlignment="Right">
+                <!-- Placeholder -->
+                Sr
+            </Button>
+
+        </DockPanel>
+
+
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.RowSpan="2"
+                    Background="{StaticResource Primary.ForegroundBrush}">
+            <ListBox Height="30" 
+                         Background="{StaticResource Primary.ForegroundBrush}" 
+                         BorderBrush="{StaticResource Primary.ForegroundBrush}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Placeholder -->
+                        <TextBlock Text="MyDataset"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+
+        <ScrollViewer Grid.Row="1" 
+                      Grid.Column="1" 
+                      VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Disabled"
+                      DataContext="{StaticResource mainDashboard}">
+            <ItemsControl ItemsSource="{Binding DataGridDisplay}">
+                <ItemsControl.ItemTemplate>
+
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding}">
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="{Binding DataGridDisplayColumns, Source={StaticResource mainDashboard}}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" BorderThickness="1">
+                                        <Grid Height="40">
+                                            <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+                    </DataTemplate>
+
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
+    </Grid>
+</Window>

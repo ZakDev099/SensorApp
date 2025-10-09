@@ -1,3 +1,5 @@
+using SensorApp.Data;
+using SensorApp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -5,19 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using SensorApp.classes;
 
-namespace SensorApp.Classes
+namespace SensorApp.Utils
 {
     public class DataProcessing
     {
         private static readonly DataProcessing _instance = new DataProcessing();
         public static DataProcessing Instance => _instance;
+        private DataProcessing() { }
 
         private List<Dataset> datasets = [];
         public List<Dataset> Datasets => datasets;
-
-        private DataProcessing() { }
 
         public void LoadFile()
         {
@@ -29,21 +29,27 @@ namespace SensorApp.Classes
             
         }
 
-        public double findAverage(Dataset dataset)
+        public static double FindAverage(Dataset dataset)
         {
             double sum = 0;
             int divisor = 0;
 
-            foreach (Double i in dataset.Data)
+            foreach (double[] x in dataset.Data)
             {
-                sum += i;
-                divisor++;
+                foreach (double? y in x)
+                {
+                    if (y.HasValue)
+                    {
+                        sum += y.Value;
+                        divisor++;
+                    }
+                }
             }
 
             return sum / divisor;
         }
 
-        //return array of matching target locations in active dataset
+        //return array of matching target locations in the display grid *Come back to this*
         public List<Tuple<int>> binarySearch(string targetString, Dataset dataset)
         {
             List<Tuple<int>> result = [];

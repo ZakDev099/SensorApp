@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace SensorApp.Frontend
+namespace SensorApp
 {
     /// <summary>
     /// Interaction logic for App.xaml

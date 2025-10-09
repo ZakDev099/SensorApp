@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace SensorApp.classes
+namespace SensorApp.UI
 {
     public static class UserFeedback
     {
