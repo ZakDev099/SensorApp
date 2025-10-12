@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:SensorApp"
         mc:Ignorable="d"
         Title="SensorApp" Height="450" Width="800" WindowState="Maximized">
+    
     <Grid>
 
         <Grid.RowDefinitions>
@@ -72,10 +73,14 @@
 
         </DockPanel>
 
-
-        <StackPanel Grid.Row="0"
+        <ComboBox Grid.Row="0"
+                  Grid.Column="0"
+                  Background="{StaticResource Primary.ForegroundBrush}">
+            
+        </ComboBox>
+        
+        <StackPanel Grid.Row="1"
                     Grid.Column="0"
-                    Grid.RowSpan="2"
                     Background="{StaticResource Primary.ForegroundBrush}">
             <ListBox Height="30" 
                          Background="{StaticResource Primary.ForegroundBrush}" 
@@ -93,7 +98,7 @@
         <ScrollViewer Grid.Row="1" 
                       Grid.Column="1" 
                       VerticalScrollBarVisibility="Auto" 
-                      HorizontalScrollBarVisibility="Disabled"
+                      HorizontalScrollBarVisibility="Auto"
                       DataContext="{StaticResource mainDashboard}">
             <ItemsControl ItemsSource="{Binding DataGridDisplay}">
                 <ItemsControl.ItemTemplate>
@@ -103,7 +108,8 @@
 
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding DataGridDisplayColumns, Source={StaticResource mainDashboard}}" />
+                                    <UniformGrid Columns="{Binding DataGridDisplayColumns, Source={StaticResource mainDashboard}}"
+                                                 Rows="{Binding DataGridDisplayRows, Source={StaticResource mainDashboard}}"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
 
@@ -111,7 +117,7 @@
 
                                 <DataTemplate>
                                     <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" BorderThickness="1">
-                                        <Grid Height="40">
+                                        <Grid Height="40" Width="40">
                                             <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
                                         </Grid>
                                     </Border>

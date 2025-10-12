@@ -1,13 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SensorApp.Data;
 using SensorApp.Utils;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace SensorApp.UI
 {
-    public class Dashboard
+    public class Dashboard : INotifyPropertyChanged
     {
         private Dataset? activeDataset;
         public Dataset? ActiveDataset
@@ -29,6 +31,12 @@ namespace SensorApp.UI
         private const int dataGridDisplayRows = 100;
         public int DataGridDisplayRows = dataGridDisplayRows;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public Dashboard()
         {
