@@ -14,10 +14,7 @@ namespace SensorApp.UI
     {
         private static readonly Dashboard _instance = new();
         public static Dashboard Instance => _instance;
-        private Dashboard()
-        {
-            UpdateDataGridDisplay();
-        }
+        private Dashboard() => UpdateDataGridDisplay();
 
         private Dataset? activeDataset;
         public Dataset? ActiveDataset
@@ -30,6 +27,7 @@ namespace SensorApp.UI
                 OnPropertyChanged();
             }
         }
+
         private int position = 0;
         private int Position
         {
@@ -51,10 +49,10 @@ namespace SensorApp.UI
             }
         }
 
-        private double?[][]? dataGridDisplay;
-        public double?[][]? DataGridDisplay 
-        { 
-            get => dataGridDisplay; 
+        private double?[]? dataGridDisplay;
+        public double?[]? DataGridDisplay
+        {
+            get => dataGridDisplay;
             set
             {
                 dataGridDisplay = value;
@@ -62,10 +60,8 @@ namespace SensorApp.UI
             }
         }
 
-        private const int dataGridDisplayColumns = 20;
-        public int DataGridDisplayColumns => dataGridDisplayColumns;
-
-        private const int dataGridDisplayRows = 100;
+        public int DataGridDisplayColumns { get; } = 20;
+        public int DataGridDisplayRows { get; } = 100;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -104,45 +100,25 @@ namespace SensorApp.UI
 
         public void UpdateDataGridDisplay()
         {
+            int cellCount = DataGridDisplayColumns * DataGridDisplayRows;
+            int counter = 0;
             
-            var dataGrid = new double?[dataGridDisplayRows][];
-            for (int row = 0; row < dataGridDisplayRows; row++)
-            {
-                dataGrid[row] = new double?[DataGridDisplayColumns];
-                for (int column = 0; column < DataGridDisplayColumns; column++)
-                {
-                    dataGrid[row][column] = null;
-                }
-            }
+            var dataGrid = new double?[cellCount];
 
             if (ActiveDataset != null)
             {
-                var ads = ActiveDataset.Data;
-                int rowCounter = 0;
-                int columnCounter = 0;
-
-                foreach (double[] ads_Row in ads)
+                foreach (double[] Row in ActiveDataset.Data)
                 {
-
-                    foreach (double ads_Column in ads_Row)
+                    foreach (double Column in Row)
                     {
-                        if (rowCounter < 100)
-                        {
-                            dataGrid[rowCounter][columnCounter++] = ads_Column;
-                            if (columnCounter >= 20)
-                            {
-                                columnCounter = 0;
-                                rowCounter++;
-                            }
-                        }
-                        else
-                        {
-                            // Alert user of error
-                            return;
-                        }
-
+                        dataGrid[counter++] = Column;
                     }
                 }
+            }
+
+            while (counter < cellCount)
+            {
+                dataGrid[counter++] = null;
             }
 
             DataGridDisplay = dataGrid;

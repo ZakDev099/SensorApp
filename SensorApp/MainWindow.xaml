@@ -108,35 +108,25 @@
                       Grid.Column="1" 
                       VerticalScrollBarVisibility="Auto" 
                       HorizontalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding DataGridDisplay}">
+            <ItemsControl ItemsSource="{Binding DataGridDisplay, Source={x:Static db:Dashboard.Instance}}">
+                
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="{Binding DataGridDisplayColumns, Source={x:Static db:Dashboard.Instance}}"
+                                     Rows="{Binding DataGridDisplayRows, Source={x:Static db:Dashboard.Instance}}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
-
                     <DataTemplate>
-                        <ItemsControl ItemsSource="{Binding}">
-
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid DataContext="{x:Static db:Dashboard.Instance}"
-                                                 Columns="{Binding DataGridDisplayColumns}" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-
-                            <ItemsControl.ItemTemplate>
-
-                                <DataTemplate>
-                                    <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" BorderThickness="1">
-                                        <Grid Height="40" Width="40">
-                                            <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-
-                            </ItemsControl.ItemTemplate>
-
-                        </ItemsControl>
+                        <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" BorderThickness="1">
+                            <Grid Height="40" Width="40">
+                                <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
+                            </Grid>
+                        </Border>
                     </DataTemplate>
-
                 </ItemsControl.ItemTemplate>
+                
             </ItemsControl>
         </ScrollViewer>
         
