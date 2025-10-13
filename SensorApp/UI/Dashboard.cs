@@ -3,6 +3,7 @@ using SensorApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace SensorApp.UI
 {
     public class Dashboard : INotifyPropertyChanged
     {
-        private static readonly Dashboard _instance = new Dashboard();
+        private static readonly Dashboard _instance = new();
         public static Dashboard Instance => _instance;
         private Dashboard()
         {
@@ -26,17 +27,45 @@ namespace SensorApp.UI
             {
                 activeDataset = value;
                 UpdateDataGridDisplay();
+                OnPropertyChanged();
             }
         }
         private int position = 0;
+        private int Position
+        {
+            get => position;
+            set
+            {
+                if (value < 0)
+                {
+                    position = DataProcessing.Instance.AllDatasets.Count - 1;
+                }
+                else if (value > DataProcessing.Instance.AllDatasets.Count - 1)
+                {
+                    position = 0;
+                }
+                else
+                {
+                    position = value;
+                }
+            }
+        }
 
-        public double?[][]? DataGridDisplay { get; set; }
+        private double?[][]? dataGridDisplay;
+        public double?[][]? DataGridDisplay 
+        { 
+            get => dataGridDisplay; 
+            set
+            {
+                dataGridDisplay = value;
+                OnPropertyChanged();
+            }
+        }
 
         private const int dataGridDisplayColumns = 20;
         public int DataGridDisplayColumns => dataGridDisplayColumns;
 
         private const int dataGridDisplayRows = 100;
-        public int DataGridDisplayRows => dataGridDisplayRows;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -52,34 +81,41 @@ namespace SensorApp.UI
             
             dp.LoadFile();
             ActiveDataset = dp.AllDatasets[^1];
+            Position = dp.AllDatasets.Count - 1;
         }
 
         public void NextDataset()
         {
-            ActiveDataset = DataProcessing.Instance.AllDatasets[++position];
+            if (DataProcessing.Instance.AllDatasets.Count > 1)
+            {
+                Position++;
+                ActiveDataset = DataProcessing.Instance.AllDatasets[Position];
+            }
         }
 
         public void PreviousDataset()
         {
-            ActiveDataset = DataProcessing.Instance.AllDatasets[--position];
+            if (DataProcessing.Instance.AllDatasets.Count > 1)
+            {
+                Position--;
+                ActiveDataset = DataProcessing.Instance.AllDatasets[Position];
+            }
         }
 
         public void UpdateDataGridDisplay()
         {
-            if (DataGridDisplay == null)
+            
+            var dataGrid = new double?[dataGridDisplayRows][];
+            for (int row = 0; row < dataGridDisplayRows; row++)
             {
-                DataGridDisplay = new double?[DataGridDisplayRows][];
-                for (int row = 0; row < DataGridDisplayRows; row++)
+                dataGrid[row] = new double?[DataGridDisplayColumns];
+                for (int column = 0; column < DataGridDisplayColumns; column++)
                 {
-                    DataGridDisplay[row] = new double?[DataGridDisplayColumns];
-                    for (int column = 0; column < DataGridDisplayColumns; column++)
-                    {
-                        DataGridDisplay[row][column] = null;
-                    }
+                    dataGrid[row][column] = null;
                 }
             }
 
-            if (ActiveDataset != null && DataGridDisplay != null)
+            if (ActiveDataset != null)
             {
                 var ads = ActiveDataset.Data;
                 int rowCounter = 0;
@@ -92,7 +128,7 @@ namespace SensorApp.UI
                     {
                         if (rowCounter < 100)
                         {
-                            DataGridDisplay[rowCounter][columnCounter++] = ads_Column;
+                            dataGrid[rowCounter][columnCounter++] = ads_Column;
                             if (columnCounter >= 20)
                             {
                                 columnCounter = 0;
@@ -108,6 +144,8 @@ namespace SensorApp.UI
                     }
                 }
             }
+
+            DataGridDisplay = dataGrid;
         }
     }
 }
