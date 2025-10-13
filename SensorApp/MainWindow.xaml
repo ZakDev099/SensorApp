@@ -5,9 +5,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SensorApp"
+        xmlns:db="clr-namespace:SensorApp.UI"
         mc:Ignorable="d"
         Title="SensorApp" Height="450" Width="800" WindowState="Maximized">
-    
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -48,7 +49,10 @@
                     Width="20" 
                     Height="20" 
                     DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right"
+                    
+                    Name="LoadBtn"
+                    Click="LoadBtn_Click">
                 <!-- Placeholder -->
                 L
             </Button>
@@ -73,11 +77,11 @@
 
         </DockPanel>
 
-        <ComboBox Grid.Row="0"
-                  Grid.Column="0"
-                  Background="{StaticResource Primary.ForegroundBrush}">
-            
-        </ComboBox>
+        <DockPanel Grid.Row="0"
+                   Grid.Column="0"
+                   Background="{StaticResource Primary.ForegroundBrush}">
+            <TextBlock Text="{Binding ActiveDataset.Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </DockPanel>
         
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
@@ -98,8 +102,7 @@
         <ScrollViewer Grid.Row="1" 
                       Grid.Column="1" 
                       VerticalScrollBarVisibility="Auto" 
-                      HorizontalScrollBarVisibility="Auto"
-                      DataContext="{StaticResource mainDashboard}">
+                      HorizontalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding DataGridDisplay}">
                 <ItemsControl.ItemTemplate>
 
@@ -108,8 +111,9 @@
 
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding DataGridDisplayColumns, Source={StaticResource mainDashboard}}"
-                                                 Rows="{Binding DataGridDisplayRows, Source={StaticResource mainDashboard}}"/>
+                                    <UniformGrid DataContext="{x:Static Member=db:Dashboard.Instance}"
+                                                 Columns="{Binding DataGridDisplayColumns}"
+                                                 Rows="{Binding DataGridDisplayRows}"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
 

@@ -1,12 +1,17 @@
+using Microsoft.Win32;
 using SensorApp.Data;
 using SensorApp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace SensorApp.Utils
 {
@@ -14,19 +19,43 @@ namespace SensorApp.Utils
     {
         private static readonly DataProcessing _instance = new DataProcessing();
         public static DataProcessing Instance => _instance;
-        private DataProcessing() { }
+        private DataProcessing() 
+        {
+            allDatasets = new List<Dataset>();
+        }
 
-        private List<Dataset> datasets = [];
-        public List<Dataset> Datasets => datasets;
+        private List<Dataset> allDatasets;
+        public List<Dataset> AllDatasets => allDatasets;
 
         public void LoadFile()
         {
+            var userFile = new OpenFileDialog
+            {
+                Title = "Select a file to load",
+                Filter = "Binary Files (*.bin)|*.bin|All Files (*.*)|*.*"
+            };
 
-        }
+            bool? result = userFile.ShowDialog();
+            if (result != true)
+                return;
 
-        public void SaveFile()
-        {
-            
+            using (var reader = new BinaryReader(File.Open(userFile.FileName, FileMode.Open)))
+            {
+                int datasetRows = reader.ReadInt32();
+                double[][] data = new double[datasetRows][];
+
+                for (int row = 0; row < datasetRows; row++)
+                {
+                    int datasetColumns = reader.ReadInt32();
+                    data[row] = new double[datasetColumns];
+                    for (int column = 0; column < datasetColumns; column++)
+                        data[row][column] = reader.ReadDouble();
+                }
+
+                Dataset dataset = new Dataset($"Dataset {(AllDatasets.Count()) + 1}", data);
+                dataset.AverageValue = FindAverage(dataset);
+                AllDatasets.Add(dataset);
+            }
         }
 
         public static double FindAverage(Dataset dataset)

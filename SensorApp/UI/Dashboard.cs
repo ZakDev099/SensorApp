@@ -11,6 +11,13 @@ namespace SensorApp.UI
 {
     public class Dashboard : INotifyPropertyChanged
     {
+        private static readonly Dashboard _instance = new Dashboard();
+        public static Dashboard Instance => _instance;
+        private Dashboard()
+        {
+            UpdateDataGridDisplay();
+        }
+
         private Dataset? activeDataset;
         public Dataset? ActiveDataset
         {
@@ -29,33 +36,32 @@ namespace SensorApp.UI
         public int DataGridDisplayColumns => dataGridDisplayColumns;
 
         private const int dataGridDisplayRows = 100;
-        public int DataGridDisplayRows = dataGridDisplayRows;
+        public int DataGridDisplayRows => dataGridDisplayRows;
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Dashboard()
+        public void LoadNewDataset()
         {
-            UpdateDataGridDisplay();
+            var dp = DataProcessing.Instance;
+            
+            dp.LoadFile();
+            ActiveDataset = dp.AllDatasets[^1];
         }
 
-        public Dataset NextDataset()
+        public void NextDataset()
         {
-            return DataProcessing.Instance.Datasets[++position];
+            ActiveDataset = DataProcessing.Instance.AllDatasets[++position];
         }
 
-        public Dataset PreviousDataset()
+        public void PreviousDataset()
         {
-            return DataProcessing.Instance.Datasets[--position];
-        }
-
-        public void SetActiveDataset(Dataset dataset)
-        {
-            ActiveDataset = dataset;
+            ActiveDataset = DataProcessing.Instance.AllDatasets[--position];
         }
 
         public void UpdateDataGridDisplay()
@@ -63,10 +69,10 @@ namespace SensorApp.UI
             if (DataGridDisplay == null)
             {
                 DataGridDisplay = new double?[DataGridDisplayRows][];
-                for (int row = 0; row < DataGridDisplay.Length; row++)
+                for (int row = 0; row < DataGridDisplayRows; row++)
                 {
                     DataGridDisplay[row] = new double?[DataGridDisplayColumns];
-                    for (int column = 0; column < DataGridDisplay[row].Length; column++)
+                    for (int column = 0; column < DataGridDisplayColumns; column++)
                     {
                         DataGridDisplay[row][column] = null;
                     }
