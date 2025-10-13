@@ -22,15 +22,35 @@ namespace SensorApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private void LoadBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Dashboard.Instance.LoadNewDataset();
-        }
         public MainWindow()
         {
             InitializeComponent();
             DataContext = Dashboard.Instance;
-            Dashboard.Instance.ActiveDataset = new Dataset("TEST", [[1, 2, 3], [12, 13, 15]]);
+        }
+
+        private void LoadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Dashboard.Instance.LoadNewDataset();
+        }
+
+        private void PreviousBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Dashboard.Instance.PreviousDataset();
+        }
+
+        private void NextBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Dashboard.Instance.NextDataset();
+        }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SettingsBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

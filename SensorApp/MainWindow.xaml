@@ -31,7 +31,10 @@
                     Width="30" 
                     Height="20" 
                     DockPanel.Dock="Left" 
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Left"
+                    
+                    Name="PreviousBtn"
+                    Click="PreviousBtn_Click">
                 <!-- Placeholder -->
                 Prev
             </Button>
@@ -40,7 +43,10 @@
                     Width="30" 
                     Height="20" 
                     DockPanel.Dock="Left" 
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Left"
+                    
+                    Name="NextBtn"
+                    Click="NextBtn_Click">
                 <!-- Placeholder -->
                 Next
             </Button>
@@ -61,7 +67,10 @@
                     Width="20" 
                     Height="20" 
                     DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right"
+                    
+                    Name="SettingsBtn"
+                    Click="SettingsBtn_Click">
                 <!-- Placeholder -->
                 St
             </Button>
@@ -70,7 +79,10 @@
                     Width="20" 
                     Height="20" 
                     DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right"
+                    
+                    Name="SearchBtn"
+                    Click="SearchBtn_Click">
                 <!-- Placeholder -->
                 Sr
             </Button>
@@ -86,16 +98,9 @@
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
                     Background="{StaticResource Primary.ForegroundBrush}">
-            <ListBox Height="30" 
-                         Background="{StaticResource Primary.ForegroundBrush}" 
-                         BorderBrush="{StaticResource Primary.ForegroundBrush}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <!-- Placeholder -->
-                        <TextBlock Text="MyDataset"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <TextBlock Text="{Binding ActiveDataset.AverageValue, StringFormat='Average Value: {0}', TargetNullValue='Average Value: N/A'}" />
+            <TextBlock Text="{Binding ActiveDataset.UpperBound, StringFormat='Upper Constraint: {0}', TargetNullValue='Upper Constraint: N/A'}" />
+            <TextBlock Text="{Binding ActiveDataset.LowerBound, StringFormat='Lower Constraint: {0}', TargetNullValue='Lower Constraint: N/A'}" />
         </StackPanel>
 
 
@@ -111,9 +116,8 @@
 
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid DataContext="{x:Static Member=db:Dashboard.Instance}"
-                                                 Columns="{Binding DataGridDisplayColumns}"
-                                                 Rows="{Binding DataGridDisplayRows}"/>
+                                    <UniformGrid DataContext="{x:Static db:Dashboard.Instance}"
+                                                 Columns="{Binding DataGridDisplayColumns}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
 
