@@ -5,7 +5,6 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <UI:Dashboard x:Key="mainDashboard" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
