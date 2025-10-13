@@ -1,3 +1,4 @@
+using SensorApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,16 +14,9 @@ namespace SensorApp.Data
     {
         public string Name { get; set; } = name;
         public double[][] Data { get; set; } = data;
-        public double AverageValue;
-        public double UpperBound { get; set; }
-        public double LowerBound { get; set; }
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public double AverageValue { get; set; } = DataProcessing.FindAverage(data);
+        public double? UpperBound { get; set; } = null;
+        public double? LowerBound { get; set; } = null;
 
         public void SetBounds(double upperBound, double lowerBound)
         {
