@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SensorApp.Data;
 using SensorApp.UI;
+using SensorApp.Utils;
 
 namespace SensorApp
 {
@@ -21,23 +22,15 @@ namespace SensorApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private void LoadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Dashboard.Instance.LoadNewDataset();
+        }
         public MainWindow()
         {
-            //Dashboard mainDashboard = new();
-            //double[][] sampleData = new double[][]
-            //{
-            //    new double[] { 1, 2, 3, 7, 8, 9, 11, 12, 11, 11, 15, 10, 1},
-            //    new double[] { 15, 20, 25, 70, 30, 46 },
-            //    new double[] { 12, 100, 120, 150 }
-            //}
-            //;
-            //Dataset dataset = new Dataset("MyDataset", sampleData);
-            //mainDashboard.SetActiveDataset(dataset);
-            //mainDashboard.UpdateDataGridDisplay();
-
-            //DataContext = mainDashboard;
-
             InitializeComponent();
+            DataContext = Dashboard.Instance;
+            Dashboard.Instance.ActiveDataset = new Dataset("TEST", [[1, 2, 3], [12, 13, 15]]);
         }
     }
 }
