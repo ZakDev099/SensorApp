@@ -17,14 +17,14 @@ namespace SensorApp.Utils
 {
     public class DataProcessing
     {
-        private static readonly DataProcessing _instance = new DataProcessing();
+        private static readonly DataProcessing _instance = new();
         public static DataProcessing Instance => _instance;
         private DataProcessing() 
         {
-            allDatasets = new List<Dataset>();
+            allDatasets = new();
         }
 
-        private List<Dataset> allDatasets;
+        private readonly List<Dataset> allDatasets;
         public List<Dataset> AllDatasets => allDatasets;
 
         public void LoadFile()
@@ -39,31 +39,29 @@ namespace SensorApp.Utils
             if (result != true)
                 return;
 
-            using (var reader = new BinaryReader(File.Open(userFile.FileName, FileMode.Open)))
+            using var reader = new BinaryReader(File.Open(userFile.FileName, FileMode.Open));
+
+            int datasetRows = reader.ReadInt32();
+            double[][] data = new double[datasetRows][];
+
+            for (int row = 0; row < datasetRows; row++)
             {
-                int datasetRows = reader.ReadInt32();
-                double[][] data = new double[datasetRows][];
-
-                for (int row = 0; row < datasetRows; row++)
-                {
-                    int datasetColumns = reader.ReadInt32();
-                    data[row] = new double[datasetColumns];
-                    for (int column = 0; column < datasetColumns; column++)
-                        data[row][column] = reader.ReadDouble();
-                }
-
-                Dataset dataset = new Dataset($"Dataset {(AllDatasets.Count()) + 1}", data);
-                dataset.AverageValue = FindAverage(dataset);
-                AllDatasets.Add(dataset);
+                int datasetColumns = reader.ReadInt32();
+                data[row] = new double[datasetColumns];
+                for (int column = 0; column < datasetColumns; column++)
+                    data[row][column] = reader.ReadDouble();
             }
+
+            Dataset dataset = new($"Dataset {(AllDatasets.Count) + 1}", data);
+            AllDatasets.Add(dataset);
         }
 
-        public static double FindAverage(Dataset dataset)
+        public static double FindAverage(double[][] data)
         {
             double sum = 0;
             int divisor = 0;
 
-            foreach (double[] x in dataset.Data)
+            foreach (double[] x in data)
             {
                 foreach (double? y in x)
                 {
@@ -79,7 +77,7 @@ namespace SensorApp.Utils
         }
 
         //return array of matching target locations in the display grid *Come back to this*
-        public List<Tuple<int>> binarySearch(string targetString, Dataset dataset)
+        public List<Tuple<int>> BinarySearch(string targetString, Dataset dataset)
         {
             List<Tuple<int>> result = [];
             var target = ParseStringToDouble(targetString);
