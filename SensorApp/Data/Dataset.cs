@@ -15,13 +15,5 @@ namespace SensorApp.Data
         public string Name { get; set; } = name;
         public double[][] Data { get; set; } = data;
         public double AverageValue { get; set; } = DataProcessing.FindAverage(data);
-        public double? UpperBound { get; set; } = null;
-        public double? LowerBound { get; set; } = null;
-
-        public void SetBounds(double upperBound, double lowerBound)
-        {
-            UpperBound = upperBound;
-            LowerBound = lowerBound;
-        }
     }
 }

@@ -28,6 +28,33 @@ namespace SensorApp.UI
             }
         }
 
+        private double? upperBound = null;
+        public double? UpperBound 
+        { 
+            get { return upperBound; }
+            set
+            {
+                if (upperBound != value)
+                {
+                    upperBound = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private double? lowerBound = null;
+        public double? LowerBound
+        {
+            get { return lowerBound; }
+            set
+            {
+                if (lowerBound != value)
+                {
+                    lowerBound = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private int position = 0;
         private int Position
         {
