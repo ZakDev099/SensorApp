@@ -94,13 +94,15 @@
                    Background="{StaticResource Primary.ForegroundBrush}">
             <TextBlock Text="{Binding ActiveDataset.Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </DockPanel>
-        
+
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
                     Background="{StaticResource Primary.ForegroundBrush}">
+            
             <TextBlock Text="{Binding ActiveDataset.AverageValue, StringFormat='Average Value: {0}', TargetNullValue='Average Value: N/A'}" />
             <TextBlock Text="{Binding ActiveDataset.UpperBound, StringFormat='Upper Constraint: {0}', TargetNullValue='Upper Constraint: N/A'}" />
             <TextBlock Text="{Binding ActiveDataset.LowerBound, StringFormat='Lower Constraint: {0}', TargetNullValue='Lower Constraint: N/A'}" />
+            
         </StackPanel>
 
 
@@ -108,26 +110,32 @@
                       Grid.Column="1" 
                       VerticalScrollBarVisibility="Auto" 
                       HorizontalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding DataGridDisplay, Source={x:Static db:Dashboard.Instance}}">
-                
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="{Binding DataGridDisplayColumns, Source={x:Static db:Dashboard.Instance}}"
-                                     Rows="{Binding DataGridDisplayRows, Source={x:Static db:Dashboard.Instance}}"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+            <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" 
+                    BorderThickness="0,1,0,0">
+                <ItemsControl ItemsSource="{Binding DataGridDisplay, Source={x:Static db:Dashboard.Instance}}">
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" BorderThickness="1">
-                            <Grid Height="40" Width="40">
-                                <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                
-            </ItemsControl>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="{Binding DataGridDisplayColumns, Source={x:Static db:Dashboard.Instance}}"
+                                     Rows="{Binding DataGridDisplayRows, Source={x:Static db:Dashboard.Instance}}"
+                                     ClipToBounds="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" 
+                                BorderThickness="0,0,1,1"
+                                ClipToBounds="True">
+                                <Grid MinHeight="40" MinWidth="40" ClipToBounds="True">
+                                    <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+            </Border>
         </ScrollViewer>
         
     </Grid>
