@@ -10,125 +10,132 @@
         Title="SensorApp" Height="450" Width="800" WindowState="Maximized">
 
     <Grid>
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="9*" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <Grid Grid.Column="1" 
+              Grid.Row="0" 
+              Background="{StaticResource Primary.LightBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
 
-        <DockPanel Grid.Column="1" 
-                   Grid.Row="0" 
-                   Margin="5" 
-                   Background="{StaticResource Primary.BackgroundBrush}">
+            <DockPanel Grid.Row="1"
+                       Margin="5,0,5,0"
+                       Background="{StaticResource Primary.LightBrush}">
 
-            <Button Margin="0,0,0,0" 
-                    Width="30" 
-                    Height="20" 
-                    DockPanel.Dock="Left" 
-                    HorizontalAlignment="Left"
-                    
-                    Name="PreviousBtn"
-                    Click="PreviousBtn_Click">
-                <!-- Placeholder -->
-                Prev
-            </Button>
+                <Button Name="PreviousBtn"
+                        Click="PreviousBtn_Click"
+                        Style="{StaticResource Header.ButtonLeft}">
+                    <!-- Placeholder -->
+                            <Image Source="\Resources\ButtonIcons\Button.Nav.Previous.png"/>
+                        </Button>
 
-            <Button Margin="5,0,0,0" 
-                    Width="30" 
-                    Height="20" 
-                    DockPanel.Dock="Left" 
-                    HorizontalAlignment="Left"
-                    
-                    Name="NextBtn"
-                    Click="NextBtn_Click">
-                <!-- Placeholder -->
-                Next
-            </Button>
+                <Button Name="NextBtn"
+                        Click="NextBtn_Click"
+                        Style="{StaticResource Header.ButtonLeft}">
+                    <!-- Placeholder -->
+                    <Image Source="\Resources\ButtonIcons\Button.Nav.Next.png"/>
+                </Button>
 
-            <Button Margin="0,0,0,0" 
-                    Width="20" 
-                    Height="20" 
-                    DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right"
-                    
-                    Name="LoadBtn"
-                    Click="LoadBtn_Click">
-                <!-- Placeholder -->
-                L
-            </Button>
+                <Button Name="LoadBtn"
+                        Click="LoadBtn_Click"
+                        Style="{StaticResource Header.ButtonRight}">
+                    <!-- Placeholder -->
+                    <Image Source="\Resources\ButtonIcons\Button.Load.png"/>
+                </Button>
 
-            <Button Margin="0,0,5,0" 
-                    Width="20" 
-                    Height="20" 
-                    DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right"
-                    
-                    Name="SettingsBtn"
-                    Click="SettingsBtn_Click">
-                <!-- Placeholder -->
-                St
-            </Button>
+                <Button Name="SettingsBtn"
+                        Click="SettingsBtn_Click"
+                        Style="{StaticResource Header.ButtonRight}">
+                    <!-- Placeholder -->
+                    <Image Source="\Resources\ButtonIcons\Button.Settings.png"/>
+                </Button>
 
-            <Button Margin="0,0,5,0" 
-                    Width="20" 
-                    Height="20" 
-                    DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right"
-                    
-                    Name="SearchBtn"
-                    Click="SearchBtn_Click">
-                <!-- Placeholder -->
-                Sr
-            </Button>
+                <Button Name="SearchBtn"
+                        Click="SearchBtn_Click"
+                        Style="{StaticResource Header.ButtonRight}">
+                    <!-- Placeholder -->
+                    <Image Source="\Resources\ButtonIcons\Button.Search.png"/>
+                </Button>
 
+            </DockPanel>
+        </Grid>
+    
+        <DockPanel Grid.Row="0" Grid.Column="0"
+                   Background="{StaticResource Primary.DarkBrush}">
+            <Viewbox>
+                <Label Style="{StaticResource Sidebar.Title}" 
+                       Content="{Binding ActiveDataset.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue='No Dataset'}" />
+            </Viewbox>
         </DockPanel>
 
-        <DockPanel Grid.Row="0"
-                   Grid.Column="0"
-                   Background="{StaticResource Primary.ForegroundBrush}">
-            <TextBlock Text="{Binding ActiveDataset.Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </DockPanel>
-
-        <StackPanel Grid.Row="1"
-                    Grid.Column="0"
-                    Background="{StaticResource Primary.ForegroundBrush}">
-            <Grid>
+        <StackPanel Grid.Row="1" Grid.Column="0" Background="{StaticResource Primary.DarkBrush}">
+            <Grid Margin="5,0,5,0" Background="{StaticResource Primary.MainBrush}">
                 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Average Value:" Grid.Row="0" Grid.Column="0" />
-                <TextBlock Text="{Binding ActiveDataset.AverageValue, TargetNullValue='N/A'}" Grid.Row="0" Grid.Column="1" />
 
-                <TextBlock Text="Upper Constraint:" Grid.Row="1" Grid.Column="0" />
-                <TextBox Text="{Binding UpperBound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" />
+                <Label Style="{StaticResource Sidebar.ElementBoxTitle}"
+                       Content="Dataset Properties"
+                       Grid.Row="0" />
 
-                <TextBlock Text="Lower Constraint:" Grid.Row="2" Grid.Column="0" />
-                <TextBox Text="{Binding LowerBound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" />
+                <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                        Grid.Row="1">
+                    <TextBlock Style="{StaticResource Sidebar.ElementIdentifier}"
+                               Text="Average Value: "
+                               Grid.Row="1" />
+                </Border>
+                <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                           Text="{Binding ActiveDataset.AverageValue, TargetNullValue='N/A'}"
+                           Grid.Row="1" Grid.Column="1" />
+
+                <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                        Grid.Row="2">
+                    <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                               Text="Upper Constraint: "
+                               Grid.Row="2" />
+                </Border>
+                <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
+                         Text="{Binding UpperBound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Grid.Row="2" />
+
+                <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                        Grid.Row="3">
+                    <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                               Text="Lower Constraint: "
+                               Grid.Row="3" />
+                </Border>
+                <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
+                         Text="{Binding LowerBound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         Grid.Row="3" />
                 
             </Grid>
         </StackPanel>
 
 
-        <ScrollViewer Grid.Row="1" 
-                      Grid.Column="1" 
+        <ScrollViewer Grid.Row="1" Grid.Column="1" 
                       VerticalScrollBarVisibility="Auto" 
                       HorizontalScrollBarVisibility="Auto">
-            <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" 
-                    BorderThickness="0,1,0,0">
+            
+            <Border BorderBrush="{StaticResource Secondary.OutlineBrush}" BorderThickness="0,2,0,0">
                 <ItemsControl ItemsSource="{Binding DataGridDisplay, Source={x:Static db:Dashboard.Instance}}">
 
                     <ItemsControl.ItemsPanel>
@@ -141,10 +148,10 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" 
-                                BorderThickness="0,0,1,1"
+                            <Border BorderBrush="{StaticResource Secondary.OutlineBrush}" 
+                                BorderThickness="0,0,2,2"
                                 ClipToBounds="True">
-                                <Grid MinHeight="40" MinWidth="40" ClipToBounds="True">
+                                <Grid MinHeight="50" MinWidth="50" ClipToBounds="True" Background="{StaticResource Secondary.MainBrush}">
                                     <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
                                 </Grid>
                             </Border>
