@@ -98,11 +98,28 @@
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
                     Background="{StaticResource Primary.ForegroundBrush}">
-            
-            <TextBlock Text="{Binding ActiveDataset.AverageValue, StringFormat='Average Value: {0}', TargetNullValue='Average Value: N/A'}" />
-            <TextBlock Text="{Binding ActiveDataset.UpperBound, StringFormat='Upper Constraint: {0}', TargetNullValue='Upper Constraint: N/A'}" />
-            <TextBlock Text="{Binding ActiveDataset.LowerBound, StringFormat='Lower Constraint: {0}', TargetNullValue='Lower Constraint: N/A'}" />
-            
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Average Value:" Grid.Row="0" Grid.Column="0" />
+                <TextBlock Text="{Binding ActiveDataset.AverageValue, TargetNullValue='N/A'}" Grid.Row="0" Grid.Column="1" />
+
+                <TextBlock Text="Upper Constraint:" Grid.Row="1" Grid.Column="0" />
+                <TextBox Text="{Binding UpperBound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" />
+
+                <TextBlock Text="Lower Constraint:" Grid.Row="2" Grid.Column="0" />
+                <TextBox Text="{Binding LowerBound, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" />
+                
+            </Grid>
         </StackPanel>
 
 
@@ -117,8 +134,8 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="{Binding DataGridDisplayColumns, Source={x:Static db:Dashboard.Instance}}"
-                                     Rows="{Binding DataGridDisplayRows, Source={x:Static db:Dashboard.Instance}}"
-                                     ClipToBounds="True"/>
+                                         Rows="{Binding DataGridDisplayRows, Source={x:Static db:Dashboard.Instance}}"
+                                         ClipToBounds="True"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 
