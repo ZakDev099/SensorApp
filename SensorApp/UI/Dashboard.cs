@@ -103,8 +103,11 @@ namespace SensorApp.UI
             var dp = DataProcessing.Instance;
             
             dp.LoadFile();
-            ActiveDataset = dp.AllDatasets[^1];
-            Position = dp.AllDatasets.Count - 1;
+            if (dp.AllDatasets.Count > 0)
+            {
+                ActiveDataset = dp.AllDatasets[^1];
+                Position = dp.AllDatasets.Count - 1;
+            }
         }
 
         public void NextDataset()
