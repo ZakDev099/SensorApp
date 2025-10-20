@@ -42,15 +42,23 @@ namespace SensorApp
         {
             Dashboard.Instance.NextDataset();
         }
-
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        private void RefreshPropertiesBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Dashboard.Instance.ActiveDataset != null)
+            {
+                DataProcessing.BinarySearch(Dashboard.Instance.ActiveDataset);
+                Dashboard.Instance.UpdateDataGridView();
+            }
         }
 
-        private void SettingsBtn_Click(object sender, RoutedEventArgs e)
-        {
+        //private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        //{
 
-        }
+        //}
+
+        //private void SettingsBtn_Click(object sender, RoutedEventArgs e)
+        //{
+
+        //}
     }
 }

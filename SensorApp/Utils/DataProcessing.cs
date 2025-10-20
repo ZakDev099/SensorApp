@@ -21,7 +21,7 @@ namespace SensorApp.Utils
         public static DataProcessing Instance => _instance;
         private DataProcessing() 
         {
-            allDatasets = new();
+            allDatasets = [];
         }
 
         private readonly List<Dataset> allDatasets;
@@ -37,7 +37,10 @@ namespace SensorApp.Utils
 
             bool? result = userFile.ShowDialog();
             if (result != true)
+            {
+                Dashboard.Instance.SystemFeedback = "Dataset failed to load.";
                 return;
+            }
 
             using var reader = new BinaryReader(File.Open(userFile.FileName, FileMode.Open));
 
@@ -53,7 +56,10 @@ namespace SensorApp.Utils
             }
 
             Dataset dataset = new($"Dataset {(AllDatasets.Count) + 1}", data);
+            dataset.AverageValue = FindAverage(dataset.Data);
+            dataset.SortedData = SortDataset(dataset.Data);
             AllDatasets.Add(dataset);
+            Dashboard.Instance.SystemFeedback = "Dataset loaded successfully.";
         }
 
         public static double FindAverage(double[][] data)
@@ -76,29 +82,82 @@ namespace SensorApp.Utils
             return sum / divisor;
         }
 
-        //return array of matching target locations in the display grid *Come back to this*
-        public List<Tuple<int>> BinarySearch(string targetString, Dataset dataset)
+        public static List<KeyValuePair<int, double>> SortDataset(double[][] data) 
         {
-            List<Tuple<int>> result = [];
-            var target = ParseStringToDouble(targetString);
-            if (target != null)
+            int iterator = 0;
+            List<KeyValuePair<int, double>> dataset = new();
+
+            foreach (double[] row in data)
             {
-                //binary search algo here (account for duplicates)
+                foreach (double column in row)
+                {
+                    dataset.Add(new KeyValuePair<int, double>(iterator++, column));
+                }
             }
 
-            return result;
+            var sortDataset = from entry in dataset orderby entry.Value ascending select entry;
+
+            List<KeyValuePair<int, double>> sortedDataset = sortDataset.OrderBy(kvp => kvp.Value).ToList();
+
+            return sortedDataset;
         }
 
-        public Double? ParseStringToDouble(String value)
+        public static void BinarySearch(Dataset? dataset)
         {
-            if (double.TryParse(value, out double result))
+            List<int> targetLocations = [];
+
+            if (dataset != null && 
+                dataset.TargetValue != null && 
+                dataset.SortedData != null &&
+                dataset.SortedData.Count > 0)
             {
-                return result;
+                var target = dataset.TargetValue;
+                var data = dataset.SortedData;
+
+                int floor = 0;
+                int ceiling = data.Count - 1;
+                int mid;
+
+                while (floor <= ceiling)
+                {
+                    mid = (floor + ceiling) / 2;
+
+                    if (data[mid].Value == target)
+                    {
+                        targetLocations.Add(data[mid].Key);
+                        int mid2 = mid;
+
+                        while (data[++mid].Value == target)
+                        {
+                            targetLocations.Add(data[mid].Key);
+                        }
+                        while (data[--mid2].Value == target)
+                        {
+                            targetLocations.Add(data[mid].Key);
+                        }
+
+                        dataset.TargetValueLocations = targetLocations;
+                        return;
+                    }
+                    else
+                    {
+                        if (data[mid].Value < target)
+                        {
+                            floor = mid + 1;
+                        }
+                        else
+                        {
+                            ceiling = mid - 1;
+                        }
+                    }
+                }
+
+                dataset.TargetValueLocations = targetLocations;
+                return;
             }
             else
             {
-                UserFeedback.ShowError("Search Error, please enter a number.");
-                return null;
+                return;
             }
         }
     }

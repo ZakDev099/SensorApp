@@ -100,6 +100,26 @@
         <Setter Property="BorderThickness" Value="2,0,0,0" />
         <Setter Property="Grid.Column" Value="0" />
     </Style>
-
     
+    <!-- DATAGRID -->
+    
+    <!-- Border -->
+    <Style x:Key="DataGrid.CellBorder" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="{StaticResource Secondary.OutlineBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,2,2" />
+    </Style>
+    <!-- Grid -->
+    <Style x:Key="DataGrid.CellGrid" TargetType="{x:Type Grid}">
+        <Setter Property="MinHeight" Value="50" />
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="ClipToBounds" Value="True" />
+    </Style>
+    <!-- TextBlock -->
+    <Style x:Key="DataGrid.CellTextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+
 </ResourceDictionary>

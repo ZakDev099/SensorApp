@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Utils\CellForegroundColorConverter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\ButtonIcons\Button.Load.png" />
     <None Remove="Resources\ButtonIcons\Button.Nav.Next.png" />
     <None Remove="Resources\ButtonIcons\Button.Nav.Previous.png" />
