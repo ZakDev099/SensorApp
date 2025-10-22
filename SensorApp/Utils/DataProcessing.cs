@@ -44,22 +44,30 @@ namespace SensorApp.Utils
 
             using var reader = new BinaryReader(File.Open(userFile.FileName, FileMode.Open));
 
-            int datasetRows = reader.ReadInt32();
-            double[][] data = new double[datasetRows][];
-
-            for (int row = 0; row < datasetRows; row++)
+            try
             {
-                int datasetColumns = reader.ReadInt32();
-                data[row] = new double[datasetColumns];
-                for (int column = 0; column < datasetColumns; column++)
-                    data[row][column] = reader.ReadDouble();
-            }
+                int datasetRows = reader.ReadInt32();
+                double[][] data = new double[datasetRows][];
 
-            Dataset dataset = new($"Dataset {(AllDatasets.Count) + 1}", data);
-            dataset.AverageValue = FindAverage(dataset.Data);
-            dataset.SortedData = SortDataset(dataset.Data);
-            AllDatasets.Add(dataset);
-            Dashboard.Instance.SystemFeedback = "Dataset loaded successfully.";
+                for (int row = 0; row < datasetRows; row++)
+                {
+                    int datasetColumns = reader.ReadInt32();
+                    data[row] = new double[datasetColumns];
+                    for (int column = 0; column < datasetColumns; column++)
+                        data[row][column] = reader.ReadDouble();
+                }
+
+                Dataset dataset = new($"Dataset {(AllDatasets.Count) + 1}", data);
+                dataset.AverageValue = FindAverage(dataset.Data);
+                dataset.SortedData = SortDataset(dataset.Data);
+                AllDatasets.Add(dataset);
+                Dashboard.Instance.SystemFeedback = "Dataset loaded successfully.";
+            }
+            catch (Exception ex)
+            {
+                Dashboard.Instance.SystemFeedback = $"Dataset failed to load. ({ex.Message})";
+                return;
+            }
         }
 
         public static double FindAverage(double[][] data)
