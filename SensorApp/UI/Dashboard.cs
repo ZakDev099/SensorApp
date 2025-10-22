@@ -163,6 +163,10 @@ namespace SensorApp.UI
                 DatasetIndex++;
                 ActiveDataset = DataProcessing.Instance.AllDatasets[DatasetIndex];
             }
+            else
+            {
+                SystemFeedback = "No dataset loaded";
+            }
         }
 
         public void PreviousDataset()
@@ -171,7 +175,10 @@ namespace SensorApp.UI
             {
                 DatasetIndex--;
                 ActiveDataset = DataProcessing.Instance.AllDatasets[DatasetIndex];
-
+            }
+            else
+            {
+                SystemFeedback = "No dataset loaded";
             }
         }
 

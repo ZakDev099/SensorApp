@@ -116,6 +116,11 @@ namespace SensorApp.Utils
                 }
             }
 
+            if (upperBound != null || lowerBound != null)
+            {
+                Dashboard.Instance.SystemFeedback = "ERROR: Invalid Lower/Upper Bounds";
+            }
+
             return new SolidColorBrush(Colors.Black);
         }
 
