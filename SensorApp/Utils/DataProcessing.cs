@@ -82,22 +82,22 @@ namespace SensorApp.Utils
             return sum / divisor;
         }
 
-        public static List<KeyValuePair<int, double>> SortDataset(double[][] data) 
+        public static List<Tuple<int, double>> SortDataset(double[][] data) 
         {
             int iterator = 0;
-            List<KeyValuePair<int, double>> dataset = new();
+            List<Tuple<int, double>> dataset = new();
 
             foreach (double[] row in data)
             {
                 foreach (double column in row)
                 {
-                    dataset.Add(new KeyValuePair<int, double>(iterator++, column));
+                    dataset.Add(new Tuple<int, double>(iterator++, column));
                 }
             }
 
-            var sortDataset = from entry in dataset orderby entry.Value ascending select entry;
+            var sortDataset = from entry in dataset orderby entry.Item2 ascending select entry;
 
-            List<KeyValuePair<int, double>> sortedDataset = sortDataset.OrderBy(kvp => kvp.Value).ToList();
+            List<Tuple<int, double>> sortedDataset = sortDataset.OrderBy(kvp => kvp.Item2).ToList();
 
             return sortedDataset;
         }
@@ -122,18 +122,18 @@ namespace SensorApp.Utils
                 {
                     mid = (floor + ceiling) / 2;
 
-                    if (data[mid].Value == target)
+                    if (data[mid].Item2 == target)
                     {
-                        targetLocations.Add(data[mid].Key);
+                        targetLocations.Add(data[mid].Item1);
                         int mid2 = mid;
 
-                        while (data[++mid].Value == target)
+                        while (data[++mid].Item2 == target)
                         {
-                            targetLocations.Add(data[mid].Key);
+                            targetLocations.Add(data[mid].Item1);
                         }
-                        while (data[--mid2].Value == target)
+                        while (data[--mid2].Item2 == target)
                         {
-                            targetLocations.Add(data[mid].Key);
+                            targetLocations.Add(data[mid].Item1);
                         }
 
                         dataset.TargetValueLocations = targetLocations;
@@ -141,7 +141,7 @@ namespace SensorApp.Utils
                     }
                     else
                     {
-                        if (data[mid].Value < target)
+                        if (data[mid].Item2 < target)
                         {
                             floor = mid + 1;
                         }

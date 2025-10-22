@@ -14,7 +14,7 @@ namespace SensorApp.Data
     {
         public string Name { get; set; } = name;
         public double[][] Data { get; set; } = data;
-        public List<KeyValuePair<int, double>>? SortedData { get; set; }
+        public List<Tuple<int, double>>? SortedData { get; set; }
         public double? TargetValue { get; set; }
         public List<int>? TargetValueLocations { get; set; }
         public double? UpperBound { get; set; }
