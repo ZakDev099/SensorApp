@@ -63,7 +63,120 @@ namespace SensorApp.Utils.Tests
             double expected = double.NaN;
             var result = DataProcessing.FindAverage(sampleData);
 
-            Assert.AreEqual(result, expected);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod()]
+        public void BinarySearchTest_Typical()
+        {
+            var sampleTarget = 19.51;
+            List<(int, double)> sampleData =
+            [
+                (8, 7.48),
+                (9, 9.95),
+                (6, 12.15),
+                (2, 15.47),
+                (10, 16.54),
+                (3, 19.51),
+                (1, 20.15),
+                (4, 75.46),
+                (7, 89.36),
+                (5, 89.72),
+            ];
+            List<int> expected = [3];
+
+            var result = DataProcessing.BinarySearch(sampleTarget, sampleData);
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [TestMethod()]
+        public void BinarySearchTest_DuplicateValues()
+        {
+            var sampleTarget = 19.51;
+            List<(int, double)> sampleData =
+            [
+                (8, 7.48),
+                (9, 9.95),
+                (6, 12.15),
+                (2, 15.47),
+                (10, 16.54),
+                (3, 19.51),
+                (11, 19.51),
+                (13, 19.51),
+                (1, 20.15),
+                (4, 75.46),
+                (7, 89.36),
+                (12, 89.37),
+                (5, 89.72),
+            ];
+            List<int> expected = [3, 11, 13];
+            var result = DataProcessing.BinarySearch(sampleTarget, sampleData);
+            bool targetsFound = true;
+
+            foreach (int address in expected) 
+            { 
+                if (result.Contains(address)) {}
+                else
+                {
+                    targetsFound = false;
+                    break;
+                }
+            }
+
+            Assert.IsTrue(targetsFound);
+        }
+
+        [TestMethod()]
+        public void BinarySearchTest_Edge()
+        {
+            var sampleTarget = 19.51;
+            List<(int, double)> sampleData =
+            [
+                (15, -489183429.09),
+                (16, -127.89),
+                (14, -68.87),
+                (8, -7.48),
+                (9, 9.95),
+                (6, 12.15),
+                (2, 15.47),
+                (10, 16.54),
+                (3, 19.51),
+                (11, 19.51),
+                (13, 19.51),
+                (1, 20.15),
+                (4, 75.46),
+                (7, 89.36),
+                (12, 89.37),
+                (5, 89.72),
+                (17, 14000.71),
+                (18, 87987723402.89)
+            ];
+            List<int> expected = [3, 11, 13];
+            var result = DataProcessing.BinarySearch(sampleTarget, sampleData);
+            bool targetsFound = true;
+
+            foreach (int address in expected)
+            {
+                if (result.Contains(address)) { }
+                else
+                {
+                    targetsFound = false;
+                    break;
+                }
+            }
+
+            Assert.IsTrue(targetsFound);
+        }
+
+        [TestMethod()]
+        public void BinarySearchTest_Null()
+        {
+            double? sampleTarget = null;
+            List<(int, double)> sampleData = [];
+            List<int> expected = [];
+
+            var result = DataProcessing.BinarySearch(sampleTarget, sampleData);
+            CollectionAssert.AreEqual(expected, result);
         }
     }
 }
