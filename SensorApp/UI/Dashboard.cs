@@ -187,7 +187,11 @@ namespace SensorApp.UI
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             Application application = Application.Current;
 
-            DataProcessing.BinarySearch(ActiveDataset);
+            if (ActiveDataset != null)
+            {
+                ActiveDataset.TargetValueLocations = DataProcessing.BinarySearch(ActiveDataset.TargetValue, ActiveDataset.SortedData);
+            }
+
             ActiveDataGrid.UpdateDataGrid(ActiveDataset, mainWindow, application);
         }
 

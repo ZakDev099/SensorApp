@@ -46,7 +46,6 @@ namespace SensorApp
         {
             if (Dashboard.Instance.ActiveDataset != null)
             {
-                DataProcessing.BinarySearch(Dashboard.Instance.ActiveDataset);
                 Dashboard.Instance.UpdateDataGridView();
             }
         }

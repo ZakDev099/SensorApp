@@ -110,63 +110,53 @@ namespace SensorApp.Utils
             return sortedDataset;
         }
 
-        public static void BinarySearch(Dataset? dataset)
+        public static List<int> BinarySearch(double? target, List<Tuple<int, double>>? data)
         {
             List<int> targetLocations = [];
 
-            if (dataset != null && 
-                dataset.TargetValue != null && 
-                dataset.SortedData != null &&
-                dataset.SortedData.Count > 0)
+            if (data == null || data.Count < 1|| target == null)
             {
-                var target = dataset.TargetValue;
-                var data = dataset.SortedData;
+                return targetLocations;
+            }
 
-                int floor = 0;
-                int ceiling = data.Count - 1;
-                int mid;
+            int floor = 0;
+            int ceiling = data.Count - 1;
+            int mid;
 
-                while (floor <= ceiling)
+            while (floor <= ceiling)
+            {
+                mid = (floor + ceiling) / 2;
+
+                if (data[mid].Item2 == target)
                 {
-                    mid = (floor + ceiling) / 2;
+                    targetLocations.Add(data[mid].Item1);
+                    int mid2 = mid;
 
-                    if (data[mid].Item2 == target)
+                    while (data[++mid].Item2 == target)
                     {
                         targetLocations.Add(data[mid].Item1);
-                        int mid2 = mid;
+                    }
+                    while (data[--mid2].Item2 == target)
+                    {
+                        targetLocations.Add(data[mid].Item1);
+                    }
 
-                        while (data[++mid].Item2 == target)
-                        {
-                            targetLocations.Add(data[mid].Item1);
-                        }
-                        while (data[--mid2].Item2 == target)
-                        {
-                            targetLocations.Add(data[mid].Item1);
-                        }
-
-                        dataset.TargetValueLocations = targetLocations;
-                        return;
+                    return targetLocations;
+                }
+                else
+                {
+                    if (data[mid].Item2 < target)
+                    {
+                        floor = mid + 1;
                     }
                     else
                     {
-                        if (data[mid].Item2 < target)
-                        {
-                            floor = mid + 1;
-                        }
-                        else
-                        {
-                            ceiling = mid - 1;
-                        }
+                        ceiling = mid - 1;
                     }
                 }
+            }
 
-                dataset.TargetValueLocations = targetLocations;
-                return;
-            }
-            else
-            {
-                return;
-            }
+            return targetLocations;
         }
     }
 }
