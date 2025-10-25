@@ -138,7 +138,7 @@ namespace SensorApp.Utils
                     }
                     while (data[--mid2].Item2 == target)
                     {
-                        targetLocations.Add(data[mid].Item1);
+                        targetLocations.Add(data[mid2].Item1);
                     }
 
                     return targetLocations;
