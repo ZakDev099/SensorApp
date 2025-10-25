@@ -90,27 +90,27 @@ namespace SensorApp.Utils
             return sum / divisor;
         }
 
-        public static List<Tuple<int, double>> SortDataset(double[][] data) 
+        public static List<(int, double)> SortDataset(double[][] data) 
         {
             int iterator = 0;
-            List<Tuple<int, double>> dataset = new();
+            List<(int, double)> dataset = new();
 
             foreach (double[] row in data)
             {
                 foreach (double column in row)
                 {
-                    dataset.Add(new Tuple<int, double>(iterator++, column));
+                    dataset.Add((iterator++, column));
                 }
             }
 
             var sortDataset = from entry in dataset orderby entry.Item2 ascending select entry;
 
-            List<Tuple<int, double>> sortedDataset = sortDataset.OrderBy(kvp => kvp.Item2).ToList();
+            List<(int, double)> sortedDataset = sortDataset.OrderBy(kvp => kvp.Item2).ToList();
 
             return sortedDataset;
         }
 
-        public static List<int> BinarySearch(double? target, List<Tuple<int, double>>? data)
+        public static List<int> BinarySearch(double? target, List<(int, double)>? data)
         {
             List<int> targetLocations = [];
 
