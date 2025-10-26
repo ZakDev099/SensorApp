@@ -13,11 +13,18 @@ using System.Windows.Media;
 
 namespace SensorApp.Utils
 {
+    /// <summary>
+    /// Handles the GUI display of the active dataset, creates WPF controls and determines foreground/background
+    /// colour associated with the user-given target value, min and max bounds.
+    /// </summary>
+    /// <param name="columns">Determines the horizontal cell count for the grid display</param>
+    /// <param name="rows">Determines the vertical cell count for the grid display</param>
     public class DataGridView(int columns, int rows)
     {
         public int Columns { get; } = columns;
         public int Rows { get; } = rows;
 
+        // Clears the displayed datagrid completely and rebuilds it with updated information
         public void UpdateDataGrid(Dataset? dataset, MainWindow mainWindow, Application application)
         {
             var brushes = LoadBrushes(application);
@@ -27,7 +34,7 @@ namespace SensorApp.Utils
             mainWindow.DataGrid_UniformGrid.Rows = rows;
             mainWindow.DataGrid_UniformGrid.Columns = columns;
 
-            // Iterates through dataset, creating datagrid children for each value
+            // Iterates through the dataset's data, creating datagrid children for each value
             if (dataset != null)
             {
                 var bounds = (dataset.UpperBound, dataset.LowerBound);
@@ -126,12 +133,14 @@ namespace SensorApp.Utils
 
         public Dictionary<string, SolidColorBrush> LoadBrushes(Application application)
         {
+            // Checks if brushes exist
             if (application.Resources["Secondary.MainBrush"] is SolidColorBrush background &&
                  application.Resources["Datagrid.HighlightedValueBrush"] is SolidColorBrush highlightedValue &&
                  application.Resources["Datagrid.AcceptableValueBrush"] is SolidColorBrush acceptableValue &&
                  application.Resources["Datagrid.HighValueBrush"] is SolidColorBrush highValue &&
                  application.Resources["Datagrid.LowValueBrush"] is SolidColorBrush lowValue)
             {}
+            // Otherwise assigns default B/W brushes
             else
             {
                 background = Brushes.White;

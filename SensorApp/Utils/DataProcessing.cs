@@ -27,6 +27,8 @@ namespace SensorApp.Utils
         private readonly List<Dataset> allDatasets;
         public List<Dataset> AllDatasets => allDatasets;
 
+        // Loads a new dataset from a user selected file, calculates the average and creates a sorted copy
+        // of the data.
         public void LoadFile()
         {
             var userFile = new OpenFileDialog
@@ -35,6 +37,7 @@ namespace SensorApp.Utils
                 Filter = "Binary Files (*.bin)|*.bin|All Files (*.*)|*.*"
             };
 
+            // If the user exits the dialog without selecting a file, throws an error and returns safely
             bool? result = userFile.ShowDialog();
             if (result != true)
             {
@@ -90,6 +93,7 @@ namespace SensorApp.Utils
             return sum / divisor;
         }
 
+        // Creates a sorted copy of a jagged double array with their original index values
         public static List<(int, double)> SortDataset(double[][] data) 
         {
             int iterator = 0;
@@ -110,6 +114,8 @@ namespace SensorApp.Utils
             return sortedDataset;
         }
 
+        // Returns a list of index values in a sorted dataset that where the second item in the tuple (double)
+        // matches the given target value.
         public static List<int> BinarySearch(double? target, List<(int, double)>? data)
         {
             List<int> targetLocations = [];
@@ -129,9 +135,11 @@ namespace SensorApp.Utils
 
                 if (data[mid].Item2 == target)
                 {
+                    // Found the target value, adds the index to the list
                     targetLocations.Add(data[mid].Item1);
                     int mid2 = mid;
 
+                    // Searching for duplicate values nearby
                     while (data[++mid].Item2 == target)
                     {
                         targetLocations.Add(data[mid].Item1);

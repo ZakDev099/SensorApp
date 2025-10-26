@@ -10,6 +10,11 @@ using System.Threading.Tasks;
 
 namespace SensorApp.Data
 {
+    /// <summary>
+    /// Data class that stores information about a dataset
+    /// </summary>
+    /// <param name="name">Name of the dataset</param>
+    /// <param name="data">Primary data contained in a jagged double array</param>
     public class Dataset(string name, double[][] data)
     {
         public string Name { get; set; } = name;

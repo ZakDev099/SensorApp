@@ -21,6 +21,7 @@ namespace SensorApp.UI
         public static Dashboard Instance => _instance;
         private Dashboard()
         {
+            // Create new datagrid instance with custom width/height (cell count)
             ActiveDataGrid = new DataGridView(20, 100);
             UpdateDataGridView();
         }
@@ -38,12 +39,15 @@ namespace SensorApp.UI
             }
         }
 
+        // Tracks the active dataset position in the list of datasets
         private int datasetIndex = 0;
         private int DatasetIndex
         {
             get => datasetIndex;
             set
             {
+                // Ensuring that the index stays within range and cycles back to the
+                // beginning/end.
                 if (value < 0)
                 {
                     datasetIndex = DataProcessing.Instance.AllDatasets.Count - 1;
@@ -127,6 +131,7 @@ namespace SensorApp.UI
             }
         }
 
+        // Provide with errors/information to notify users in GUI
         private string systemFeedback = "";
         public string SystemFeedback
         {
@@ -148,6 +153,7 @@ namespace SensorApp.UI
         {
             var dp = DataProcessing.Instance;
             
+            // Loading the dataset and setting it as the active dataset.
             dp.LoadFile();
             if (dp.AllDatasets.Count > 0)
             {
