@@ -21,8 +21,8 @@ namespace SensorApp.Utils
     /// <param name="rows">Determines the vertical cell count for the grid display</param>
     public class DataGridView(int columns, int rows)
     {
-        public int Columns { get; } = columns;
-        public int Rows { get; } = rows;
+        public int Columns => columns;
+        public int Rows => rows;
 
         // Clears the displayed datagrid completely and rebuilds it with updated information
         public void UpdateDataGrid(Dataset? dataset, MainWindow mainWindow, Application application)
@@ -77,7 +77,7 @@ namespace SensorApp.Utils
             }
         }
 
-        public Border BuildCustomDataGridCell(SolidColorBrush backgroundBrush, SolidColorBrush foregroundBrush, double? value = null)
+        public static Border BuildCustomDataGridCell(SolidColorBrush backgroundBrush, SolidColorBrush foregroundBrush, double? value = null)
         {
             TextBlock textBlock = new()
             {
@@ -102,28 +102,26 @@ namespace SensorApp.Utils
             return border;
         }
 
-        public SolidColorBrush CellValueBrushConverter(double? value, Dictionary<string, SolidColorBrush> brushes, (double?, double?) bounds)
+        public static SolidColorBrush CellValueBrushConverter(double? value, Dictionary<string, SolidColorBrush> brushes, (double?, double?) bounds)
         {
             var upperBound = bounds.Item1;
             var lowerBound = bounds.Item2;
 
-            if (value != null)
+            if (value != null &&
+                upperBound > lowerBound)
             {
-                if (upperBound > lowerBound)
+                switch (value)
                 {
-                    switch (value)
-                    {
-                        case double col when col > upperBound:
-                            return brushes["highValue"];
-                        case double col when col < lowerBound:
-                            return brushes["lowValue"];
-                        case double col when col >= lowerBound && col <= upperBound:
-                            return brushes["acceptableValue"];
-                    }
+                    case double col when col > upperBound:
+                        return brushes["highValue"];
+                    case double col when col < lowerBound:
+                        return brushes["lowValue"];
+                    case double col when col >= lowerBound && col <= upperBound:
+                        return brushes["acceptableValue"];
                 }
             }
 
-            if (upperBound != null || lowerBound != null)
+            if (upperBound != null && lowerBound != null)
             {
                 Dashboard.Instance.SystemFeedback = "ERROR: Invalid Lower/Upper Bounds";
             }
@@ -131,15 +129,14 @@ namespace SensorApp.Utils
             return new SolidColorBrush(Colors.Black);
         }
 
-        public Dictionary<string, SolidColorBrush> LoadBrushes(Application application)
+        public static Dictionary<string, SolidColorBrush> LoadBrushes(Application application)
         {
             // Checks if brushes exist
             if (application.Resources["Secondary.MainBrush"] is SolidColorBrush background &&
                  application.Resources["Datagrid.HighlightedValueBrush"] is SolidColorBrush highlightedValue &&
                  application.Resources["Datagrid.AcceptableValueBrush"] is SolidColorBrush acceptableValue &&
                  application.Resources["Datagrid.HighValueBrush"] is SolidColorBrush highValue &&
-                 application.Resources["Datagrid.LowValueBrush"] is SolidColorBrush lowValue)
-            {}
+                 application.Resources["Datagrid.LowValueBrush"] is SolidColorBrush lowValue) {}
             // Otherwise assigns default B/W brushes
             else
             {
