@@ -114,7 +114,7 @@ namespace SensorApp.Utils
             return sortedDataset;
         }
 
-        // Returns a list of index values in a sorted dataset that where the second item in the tuple (double)
+        // Returns a list of index values in a sorted dataset where the second item in the tuple (double)
         // matches the given target value.
         public static List<int> BinarySearch(double? target, List<(int, double)>? data)
         {
