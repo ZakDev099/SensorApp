@@ -119,6 +119,7 @@
 
                             <ItemsControl.ItemTemplate>
 
+<<<<<<< Updated upstream
                                 <DataTemplate>
                                     <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" BorderThickness="1">
                                         <Grid Height="40" Width="40">
@@ -126,15 +127,142 @@
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
+=======
+                    <Button Name="LoadBtn"
+                            Click="LoadBtn_Click"
+                            Style="{StaticResource Header.ButtonRight}">
+                        <Image Source="\Resources\ButtonIcons\Button.Load.png"/>
+                    </Button>
+
+                    <!--
+                    <Button Name="SettingsBtn"
+                            Click="SettingsBtn_Click"
+                            Style="{StaticResource Header.ButtonRight}">
+                        <Image Source="\Resources\ButtonIcons\Button.Settings.png"/>
+                    </Button>
+>>>>>>> Stashed changes
 
                             </ItemsControl.ItemTemplate>
 
                         </ItemsControl>
                     </DataTemplate>
 
+<<<<<<< Updated upstream
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
         
+=======
+            <!-- Dataset Title -->
+            <DockPanel Grid.Row="0" Grid.Column="0"
+                       Background="{StaticResource Primary.DarkBrush}">
+                <Viewbox>
+                    <Label Style="{StaticResource Sidebar.Title}" 
+                           Content="{Binding ActiveDataset.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue='No Dataset'}" />
+                </Viewbox>
+            </DockPanel>
+
+            <!-- Properties Sidebar -->
+            <StackPanel Grid.Row="1" Grid.Column="0" Background="{StaticResource Primary.DarkBrush}">
+                <Grid Margin="5,0,5,0" Background="{StaticResource Primary.MainBrush}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                    </Grid.RowDefinitions>
+
+
+                    <Label Style="{StaticResource Sidebar.ElementBoxTitle}"
+                           Content="Dataset Properties"
+                           Grid.Row="0"/>
+                    <Button Name="RefreshPropertiesBtn"
+                            Click="RefreshPropertiesBtn_Click"
+                            
+                            Content="Q"
+                            FontFamily="Wingdings 3"
+                            FontWeight="Bold"
+                            Width="20"
+                            Height="20" 
+                            Grid.Row="0" Grid.Column="1"
+                            HorizontalAlignment="Right" />
+
+
+                    <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                            Grid.Row="1">
+                        <TextBlock Style="{StaticResource Sidebar.ElementIdentifier}"
+                                   Text="Average Value: "
+                                   Grid.Row="1" />
+                    </Border>
+                    <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                               Text="{Binding ActiveDataset.AverageValue, TargetNullValue='N/A'}"
+                               Grid.Row="1" Grid.Column="1" />
+
+                    <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                            Grid.Row="2">
+                        <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                                   Text="Upper Constraint: "
+                                   Grid.Row="2" />
+                    </Border>
+                    <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
+                             Text="{Binding UpperBound, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}"
+                             Grid.Row="2" />
+
+                    <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                            Grid.Row="3">
+                        <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                                   Text="Lower Constraint: "
+                                   Grid.Row="3" />
+                    </Border>
+                    <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
+                             Text="{Binding LowerBound, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}" 
+                             Grid.Row="3" />
+
+                    <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                            Grid.Row="4">
+                        <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                                   Text="Target Value: "
+                                   Grid.Row="4" />
+                    </Border>
+                    <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
+                             Text="{Binding TargetValue, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}"
+                             Grid.Row="4" />
+
+                </Grid>
+            </StackPanel>
+
+            <!-- DataGrid -->
+            <ScrollViewer Grid.Row="1" Grid.Column="1" 
+                          VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Auto">
+
+                <UniformGrid Name="DataGrid_UniformGrid"
+                             Columns="{Binding ActiveDataGrid.Columns, Source={x:Static ui:Dashboard.Instance}}"
+                             Rows="{Binding ActiveDataGrid.Rows, Source={x:Static ui:Dashboard.Instance}}"
+                             ClipToBounds="True">
+
+                </UniformGrid>
+
+            </ScrollViewer>
+
+            <Border Grid.Row="2" Grid.ColumnSpan="2"
+                    BorderBrush="{StaticResource Secondary.OutlineBrush}" 
+                    BorderThickness="0,2,0,0">
+                <DockPanel>
+                    <TextBlock Text="{Binding SystemFeedback}"
+                               DockPanel.Dock="Right"
+                               HorizontalAlignment="Right"
+                               Margin="5,0,5,0"/>
+                </DockPanel>
+            </Border>
+
+        </Grid>
+>>>>>>> Stashed changes
     </Grid>
 </Window>
