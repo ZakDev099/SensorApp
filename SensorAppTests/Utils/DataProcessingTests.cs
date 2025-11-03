@@ -284,6 +284,10 @@ namespace SensorApp.Utils.Tests
                     previousDouble = i.Item2;
                 }
             }
+            if (sampleDataSorted.Count != 20)
+            {
+                isSorted = false;
+            }
 
             Assert.IsTrue(isSorted);
         }
