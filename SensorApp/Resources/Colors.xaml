@@ -2,13 +2,38 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- PALETTE -->
-    <Color x:Key="Primary.Foreground">#FF696969</Color>
-    <Color x:Key="Primary.Middleground">#FFD9D9D9</Color>
-    <Color x:Key="Primary.Background">#FFFFFFFF</Color>
+    
+    <!-- Primary -->
+    <Color x:Key="Primary.Dark">#FF2F3162</Color>
+    <Color x:Key="Primary.Main">#FF434588</Color>
+    <Color x:Key="Primary.Light">#FF54557C</Color>
+    <!-- Secondary -->
+    <Color x:Key="Secondary.Dark">#FF000000</Color>
+    <Color x:Key="Secondary.Outline">#FFACA4A4</Color>
+    <Color x:Key="Secondary.Main">#FFFAFAFA</Color>
+    <Color x:Key="Secondary.Light">#FFFFFFFF</Color>
+    <!-- DataGrid -->
+    <Color x:Key="Datagrid.AcceptableValue">#FF138613</Color>
+    <Color x:Key="Datagrid.HighValue">#FFB80000</Color>
+    <Color x:Key="Datagrid.LowValue">#FF0802B4</Color>
+    <Color x:Key="Datagrid.HighlightedValue">#FFBCBDFF</Color>
 
     <!-- BRUSHES -->
-    <SolidColorBrush x:Key="Primary.ForegroundBrush" Color="{StaticResource Primary.Foreground}"/>
-    <SolidColorBrush x:Key="Primary.MiddlegroundBrush" Color="{StaticResource Primary.Middleground}"/>
-    <SolidColorBrush x:Key="Primary.BackgroundBrush" Color="{StaticResource Primary.Background}"/>
+    
+    <!-- Primary -->
+    <SolidColorBrush x:Key="Primary.DarkBrush" Color="{StaticResource Primary.Dark}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Primary.MainBrush" Color="{StaticResource Primary.Main}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Primary.LightBrush" Color="{StaticResource Primary.Light}"></SolidColorBrush>
+    <!-- Secondary -->
+    <SolidColorBrush x:Key="Secondary.DarkBrush" Color="{StaticResource Secondary.Dark}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Secondary.OutlineBrush" Color="{StaticResource Secondary.Outline}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Secondary.MainBrush" Color="{StaticResource Secondary.Main}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Secondary.LightBrush" Color="{StaticResource Secondary.Light}"></SolidColorBrush>
+    <!-- DataGrid -->
+    <SolidColorBrush x:Key="Datagrid.AcceptableValueBrush" Color="{StaticResource Datagrid.AcceptableValue}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Datagrid.HighValueBrush" Color="{StaticResource Datagrid.HighValue}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Datagrid.LowValueBrush" Color="{StaticResource Datagrid.LowValue}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Datagrid.HighlightedValueBrush" Color="{StaticResource Datagrid.HighlightedValue}"></SolidColorBrush>
+    
 
 </ResourceDictionary>

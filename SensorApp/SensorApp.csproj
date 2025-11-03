@@ -9,7 +9,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Utils\CellForegroundColorConverter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\ButtonIcons\Button.Load.png" />
+    <None Remove="Resources\ButtonIcons\Button.Nav.Next.png" />
+    <None Remove="Resources\ButtonIcons\Button.Nav.Previous.png" />
+    <None Remove="Resources\ButtonIcons\Button.Search.png" />
+    <None Remove="Resources\ButtonIcons\Button.Settings.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Saves\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\ButtonIcons\Button.Load.png" />
+    <Resource Include="Resources\ButtonIcons\Button.Nav.Next.png" />
+    <Resource Include="Resources\ButtonIcons\Button.Nav.Previous.png" />
+    <Resource Include="Resources\ButtonIcons\Button.Search.png" />
+    <Resource Include="Resources\ButtonIcons\Button.Settings.png" />
   </ItemGroup>
 
 </Project>

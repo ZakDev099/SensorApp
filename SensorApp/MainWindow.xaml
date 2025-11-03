@@ -5,264 +5,166 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SensorApp"
-        xmlns:db="clr-namespace:SensorApp.UI"
+        xmlns:ui="clr-namespace:SensorApp.UI" d:DataContext="{d:DesignInstance Type=ui:Dashboard}"
         mc:Ignorable="d"
-        Title="SensorApp" Height="450" Width="800" WindowState="Maximized">
+        Title="SensorApp" Height="1080" Width="1920" WindowState="Maximized">
 
+    <!-- Main Display -->
     <Grid>
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="9*" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
 
-        <DockPanel Grid.Column="1" 
-                   Grid.Row="0" 
-                   Margin="5" 
-                   Background="{StaticResource Primary.BackgroundBrush}">
+        <Grid Grid.Column="1" 
+                Grid.Row="0" 
+                Background="{StaticResource Primary.LightBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
 
-            <Button Margin="0,0,0,0" 
-                    Width="30" 
-                    Height="20" 
-                    DockPanel.Dock="Left" 
-                    HorizontalAlignment="Left">
-                <!-- Placeholder -->
-                Prev
-            </Button>
+            <DockPanel Grid.Row="1"
+                        Margin="5,0,5,0"
+                        Background="{StaticResource Primary.LightBrush}">
 
-            <Button Margin="5,0,0,0" 
-                    Width="30" 
-                    Height="20" 
-                    DockPanel.Dock="Left" 
-                    HorizontalAlignment="Left">
-                <!-- Placeholder -->
-                Next
-            </Button>
+                <Button Name="PreviousBtn"
+                        Click="PreviousBtn_Click"
+                        Style="{StaticResource Header.ButtonLeft}">
+                    <Image Source="\Resources\ButtonIcons\Button.Nav.Previous.png"/>
+                </Button>
 
-            <Button Margin="0,0,0,0" 
-                    Width="20" 
-                    Height="20" 
-                    DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right"
-                    
-                    Name="LoadBtn"
-                    Click="LoadBtn_Click">
-                <!-- Placeholder -->
-                L
-            </Button>
+                <Button Name="NextBtn"
+                        Click="NextBtn_Click"
+                        Style="{StaticResource Header.ButtonLeft}">
+                    <Image Source="\Resources\ButtonIcons\Button.Nav.Next.png"/>
+                </Button>
 
-            <Button Margin="0,0,5,0" 
-                    Width="20" 
-                    Height="20" 
-                    DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right">
-                <!-- Placeholder -->
-                St
-            </Button>
+                <Button Name="LoadBtn"
+                        Click="LoadBtn_Click"
+                        Style="{StaticResource Header.ButtonRight}">
+                    <Image Source="\Resources\ButtonIcons\Button.Load.png"/>
+                </Button>
 
-            <Button Margin="0,0,5,0" 
-                    Width="20" 
-                    Height="20" 
-                    DockPanel.Dock="Right" 
-                    HorizontalAlignment="Right">
-                <!-- Placeholder -->
-                Sr
-            </Button>
+            </DockPanel>
+        </Grid>
 
+        <!-- Dataset Title -->
+        <DockPanel Grid.Row="0" Grid.Column="0"
+                    Background="{StaticResource Primary.DarkBrush}">
+            <Viewbox>
+                <Label Style="{StaticResource Sidebar.Title}" 
+                        Content="{Binding ActiveDataset.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue='No Dataset'}" />
+            </Viewbox>
         </DockPanel>
 
-        <DockPanel Grid.Row="0"
-                   Grid.Column="0"
-                   Background="{StaticResource Primary.ForegroundBrush}">
-            <TextBlock Text="{Binding ActiveDataset.Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </DockPanel>
-        
-        <StackPanel Grid.Row="1"
-                    Grid.Column="0"
-                    Background="{StaticResource Primary.ForegroundBrush}">
-            <ListBox Height="30" 
-                         Background="{StaticResource Primary.ForegroundBrush}" 
-                         BorderBrush="{StaticResource Primary.ForegroundBrush}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <!-- Placeholder -->
-                        <TextBlock Text="MyDataset"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+        <!-- Properties Sidebar -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Background="{StaticResource Primary.DarkBrush}">
+            <Grid Margin="5,0,5,0" Background="{StaticResource Primary.MainBrush}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+
+
+                <Label Style="{StaticResource Sidebar.ElementBoxTitle}"
+                        Content="Dataset Properties"
+                        Grid.Row="0"/>
+                <Button Name="RefreshPropertiesBtn"
+                        Click="RefreshPropertiesBtn_Click"
+                            
+                        Content="Q"
+                        FontFamily="Wingdings 3"
+                        FontWeight="Bold"
+                        Width="20"
+                        Height="20" 
+                        Grid.Row="0" Grid.Column="1"
+                        HorizontalAlignment="Right" />
+
+
+                <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                        Grid.Row="1">
+                    <TextBlock Style="{StaticResource Sidebar.ElementIdentifier}"
+                                Text="Average Value: "
+                                Grid.Row="1" />
+                </Border>
+                <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                            Text="{Binding ActiveDataset.AverageValue, TargetNullValue='N/A'}"
+                            Grid.Row="1" Grid.Column="1" />
+
+                <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                        Grid.Row="2">
+                    <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                                Text="Upper Constraint: "
+                                Grid.Row="2" />
+                </Border>
+                <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
+                            Text="{Binding UpperBound, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="2" />
+
+                <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                        Grid.Row="3">
+                    <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                                Text="Lower Constraint: "
+                                Grid.Row="3" />
+                </Border>
+                <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
+                            Text="{Binding LowerBound, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}" 
+                            Grid.Row="3" />
+
+                <Border Style="{StaticResource Sidebar.ElementIndentLine}"
+                        Grid.Row="4">
+                    <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
+                                Text="Target Value: "
+                                Grid.Row="4" />
+                </Border>
+                <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
+                            Text="{Binding TargetValue, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="4" />
+
+            </Grid>
         </StackPanel>
 
+        <!-- DataGrid -->
+        <ScrollViewer Grid.Row="1" Grid.Column="1" 
+                        VerticalScrollBarVisibility="Auto" 
+                        HorizontalScrollBarVisibility="Auto">
 
-        <ScrollViewer Grid.Row="1" 
-                      Grid.Column="1" 
-                      VerticalScrollBarVisibility="Auto" 
-                      HorizontalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding DataGridDisplay}">
-                <ItemsControl.ItemTemplate>
+            <UniformGrid Name="DataGrid_UniformGrid"
+                            Columns="{Binding ActiveDataGrid.Columns, Source={x:Static ui:Dashboard.Instance}}"
+                            Rows="{Binding ActiveDataGrid.Rows, Source={x:Static ui:Dashboard.Instance}}"
+                            ClipToBounds="True">
 
-                    <DataTemplate>
-                        <ItemsControl ItemsSource="{Binding}">
+            </UniformGrid>
 
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid DataContext="{x:Static Member=db:Dashboard.Instance}"
-                                                 Columns="{Binding DataGridDisplayColumns}"
-                                                 Rows="{Binding DataGridDisplayRows}"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-
-                            <ItemsControl.ItemTemplate>
-
-<<<<<<< Updated upstream
-                                <DataTemplate>
-                                    <Border BorderBrush="{StaticResource Primary.ForegroundBrush}" BorderThickness="1">
-                                        <Grid Height="40" Width="40">
-                                            <TextBlock Text="{Binding}" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-=======
-                    <Button Name="LoadBtn"
-                            Click="LoadBtn_Click"
-                            Style="{StaticResource Header.ButtonRight}">
-                        <Image Source="\Resources\ButtonIcons\Button.Load.png"/>
-                    </Button>
-
-                    <!--
-                    <Button Name="SettingsBtn"
-                            Click="SettingsBtn_Click"
-                            Style="{StaticResource Header.ButtonRight}">
-                        <Image Source="\Resources\ButtonIcons\Button.Settings.png"/>
-                    </Button>
->>>>>>> Stashed changes
-
-                            </ItemsControl.ItemTemplate>
-
-                        </ItemsControl>
-                    </DataTemplate>
-
-<<<<<<< Updated upstream
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
         </ScrollViewer>
         
-=======
-            <!-- Dataset Title -->
-            <DockPanel Grid.Row="0" Grid.Column="0"
-                       Background="{StaticResource Primary.DarkBrush}">
-                <Viewbox>
-                    <Label Style="{StaticResource Sidebar.Title}" 
-                           Content="{Binding ActiveDataset.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue='No Dataset'}" />
-                </Viewbox>
+        <!-- System Feedback Bar -->
+        <Border Grid.Row="2" Grid.ColumnSpan="2"
+                BorderBrush="{StaticResource Secondary.OutlineBrush}" 
+                BorderThickness="0,2,0,0">
+            <DockPanel>
+                <TextBlock Text="{Binding SystemFeedback}"
+                            DockPanel.Dock="Right"
+                            HorizontalAlignment="Right"
+                            Margin="5,0,5,0"/>
             </DockPanel>
+        </Border>
 
-            <!-- Properties Sidebar -->
-            <StackPanel Grid.Row="1" Grid.Column="0" Background="{StaticResource Primary.DarkBrush}">
-                <Grid Margin="5,0,5,0" Background="{StaticResource Primary.MainBrush}">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25" />
-                        <RowDefinition Height="25" />
-                        <RowDefinition Height="25" />
-                        <RowDefinition Height="25" />
-                        <RowDefinition Height="25" />
-                    </Grid.RowDefinitions>
-
-
-                    <Label Style="{StaticResource Sidebar.ElementBoxTitle}"
-                           Content="Dataset Properties"
-                           Grid.Row="0"/>
-                    <Button Name="RefreshPropertiesBtn"
-                            Click="RefreshPropertiesBtn_Click"
-                            
-                            Content="Q"
-                            FontFamily="Wingdings 3"
-                            FontWeight="Bold"
-                            Width="20"
-                            Height="20" 
-                            Grid.Row="0" Grid.Column="1"
-                            HorizontalAlignment="Right" />
-
-
-                    <Border Style="{StaticResource Sidebar.ElementIndentLine}"
-                            Grid.Row="1">
-                        <TextBlock Style="{StaticResource Sidebar.ElementIdentifier}"
-                                   Text="Average Value: "
-                                   Grid.Row="1" />
-                    </Border>
-                    <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
-                               Text="{Binding ActiveDataset.AverageValue, TargetNullValue='N/A'}"
-                               Grid.Row="1" Grid.Column="1" />
-
-                    <Border Style="{StaticResource Sidebar.ElementIndentLine}"
-                            Grid.Row="2">
-                        <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
-                                   Text="Upper Constraint: "
-                                   Grid.Row="2" />
-                    </Border>
-                    <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
-                             Text="{Binding UpperBound, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}"
-                             Grid.Row="2" />
-
-                    <Border Style="{StaticResource Sidebar.ElementIndentLine}"
-                            Grid.Row="3">
-                        <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
-                                   Text="Lower Constraint: "
-                                   Grid.Row="3" />
-                    </Border>
-                    <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
-                             Text="{Binding LowerBound, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}" 
-                             Grid.Row="3" />
-
-                    <Border Style="{StaticResource Sidebar.ElementIndentLine}"
-                            Grid.Row="4">
-                        <TextBlock Style="{StaticResource Sidebar.ElementValueStatic}"
-                                   Text="Target Value: "
-                                   Grid.Row="4" />
-                    </Border>
-                    <TextBox Style="{StaticResource Sidebar.ElementValueDynamic}"
-                             Text="{Binding TargetValue, Mode=TwoWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}"
-                             Grid.Row="4" />
-
-                </Grid>
-            </StackPanel>
-
-            <!-- DataGrid -->
-            <ScrollViewer Grid.Row="1" Grid.Column="1" 
-                          VerticalScrollBarVisibility="Auto" 
-                          HorizontalScrollBarVisibility="Auto">
-
-                <UniformGrid Name="DataGrid_UniformGrid"
-                             Columns="{Binding ActiveDataGrid.Columns, Source={x:Static ui:Dashboard.Instance}}"
-                             Rows="{Binding ActiveDataGrid.Rows, Source={x:Static ui:Dashboard.Instance}}"
-                             ClipToBounds="True">
-
-                </UniformGrid>
-
-            </ScrollViewer>
-
-            <Border Grid.Row="2" Grid.ColumnSpan="2"
-                    BorderBrush="{StaticResource Secondary.OutlineBrush}" 
-                    BorderThickness="0,2,0,0">
-                <DockPanel>
-                    <TextBlock Text="{Binding SystemFeedback}"
-                               DockPanel.Dock="Right"
-                               HorizontalAlignment="Right"
-                               Margin="5,0,5,0"/>
-                </DockPanel>
-            </Border>
-
-        </Grid>
->>>>>>> Stashed changes
     </Grid>
 </Window>

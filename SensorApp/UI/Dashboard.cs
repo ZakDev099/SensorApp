@@ -3,44 +3,147 @@ using SensorApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SensorApp.UI
 {
     public class Dashboard : INotifyPropertyChanged
     {
-        private static readonly Dashboard _instance = new Dashboard();
+        private static readonly Dashboard _instance = new();
         public static Dashboard Instance => _instance;
         private Dashboard()
         {
-            UpdateDataGridDisplay();
+            // Create new datagrid instance with custom width/height (cell count)
+            ActiveDataGrid = new DataGridView(20, 100);
+            UpdateDataGridView();
         }
 
         private Dataset? activeDataset;
         public Dataset? ActiveDataset
         {
-            get { return activeDataset; }
+            get => activeDataset;
             set
             {
                 activeDataset = value;
-                UpdateDataGridDisplay();
+                UpdateDataGridView();
+                OnPropertyChanged();
+                RefreshUI();
             }
         }
-        private int position = 0;
 
-        public double?[][]? DataGridDisplay { get; set; }
+        // Tracks the active dataset position in the list of datasets
+        private int datasetIndex = 0;
+        private int DatasetIndex
+        {
+            get => datasetIndex;
+            set
+            {
+                // Ensuring that the index stays within range and cycles back to the
+                // beginning/end.
+                if (value < 0)
+                {
+                    datasetIndex = DataProcessing.Instance.AllDatasets.Count - 1;
+                }
+                else if (value > DataProcessing.Instance.AllDatasets.Count - 1)
+                {
+                    datasetIndex = 0;
+                }
+                else
+                {
+                    datasetIndex = value;
+                }
+            }
+        }
 
-        private const int dataGridDisplayColumns = 20;
-        public int DataGridDisplayColumns => dataGridDisplayColumns;
+        public DataGridView ActiveDataGrid { get; set; }
 
-        private const int dataGridDisplayRows = 100;
-        public int DataGridDisplayRows => dataGridDisplayRows;
+        public double? UpperBound
+        {
+            get
+            {
+                if (ActiveDataset != null)
+                {
+                    return ActiveDataset.UpperBound;
+                }
+                else return null;
+            }
+            set
+            {
+                if (UpperBound != value &&
+                    ActiveDataset != null)
+                {
+                    ActiveDataset.UpperBound = value;
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
+        public double? LowerBound
+        {
+            get
+            {
+                if (ActiveDataset != null)
+                {
+                    return ActiveDataset.LowerBound;
+                }
+                else return null;
+            }
+            set
+            {
+                if (LowerBound != value &&
+                    ActiveDataset != null)
+                {
+                    ActiveDataset.LowerBound = value;
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
+        public double? TargetValue
+        {
+            get
+            {
+                if (ActiveDataset != null)
+                {
+                    return ActiveDataset.TargetValue;
+                }
+                else return null;
+            }
+            set
+            {
+                if (TargetValue != value &&
+                    ActiveDataset != null)
+                {
+                    ActiveDataset.TargetValue = value;
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
+        // Provide with errors/information to notify users in GUI
+        private string systemFeedback = "";
+        public string SystemFeedback
+        {
+            get => systemFeedback;
+            set
+            {
+                systemFeedback = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
-
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -50,64 +153,63 @@ namespace SensorApp.UI
         {
             var dp = DataProcessing.Instance;
             
+            // Loading the dataset and setting it as the active dataset.
             dp.LoadFile();
-            ActiveDataset = dp.AllDatasets[^1];
+            if (dp.AllDatasets.Count > 0)
+            {
+                ActiveDataset = dp.AllDatasets[^1];
+                DatasetIndex = dp.AllDatasets.Count - 1;
+            }
         }
 
         public void NextDataset()
         {
-            ActiveDataset = DataProcessing.Instance.AllDatasets[++position];
+            if (DataProcessing.Instance.AllDatasets.Count > 1)
+            {
+                DatasetIndex++;
+                ActiveDataset = DataProcessing.Instance.AllDatasets[DatasetIndex];
+            }
+            else
+            {
+                SystemFeedback = "No dataset loaded";
+            }
         }
 
         public void PreviousDataset()
         {
-            ActiveDataset = DataProcessing.Instance.AllDatasets[--position];
+            if (DataProcessing.Instance.AllDatasets.Count > 1)
+            {
+                DatasetIndex--;
+                ActiveDataset = DataProcessing.Instance.AllDatasets[DatasetIndex];
+            }
+            else
+            {
+                SystemFeedback = "No dataset loaded";
+            }
         }
 
-        public void UpdateDataGridDisplay()
+        public void UpdateDataGridView()
         {
-            if (DataGridDisplay == null)
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            Application application = Application.Current;
+
+            if (ActiveDataset != null)
             {
-                DataGridDisplay = new double?[DataGridDisplayRows][];
-                for (int row = 0; row < DataGridDisplayRows; row++)
-                {
-                    DataGridDisplay[row] = new double?[DataGridDisplayColumns];
-                    for (int column = 0; column < DataGridDisplayColumns; column++)
-                    {
-                        DataGridDisplay[row][column] = null;
-                    }
-                }
+                ActiveDataset.TargetValueLocations = DataProcessing.BinarySearch(ActiveDataset.TargetValue, ActiveDataset.SortedData);
             }
 
-            if (ActiveDataset != null && DataGridDisplay != null)
+            ActiveDataGrid.UpdateDataGrid(ActiveDataset, mainWindow, application);
+        }
+
+        private void RefreshUI()
+        {
+            if (ActiveDataset != null)
             {
-                var ads = ActiveDataset.Data;
-                int rowCounter = 0;
-                int columnCounter = 0;
-
-                foreach (double[] ads_Row in ads)
-                {
-
-                    foreach (double ads_Column in ads_Row)
-                    {
-                        if (rowCounter < 100)
-                        {
-                            DataGridDisplay[rowCounter][columnCounter++] = ads_Column;
-                            if (columnCounter >= 20)
-                            {
-                                columnCounter = 0;
-                                rowCounter++;
-                            }
-                        }
-                        else
-                        {
-                            // Alert user of error
-                            return;
-                        }
-
-                    }
-                }
+                UpperBound = ActiveDataset.UpperBound;
+                LowerBound = ActiveDataset.LowerBound;
+                TargetValue = ActiveDataset.TargetValue;
             }
         }
+
     }
 }
