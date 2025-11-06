@@ -140,11 +140,11 @@ namespace SensorApp.Utils
                     int mid2 = mid;
 
                     // Searching for duplicate values nearby
-                    while (data[++mid].Item2 == target)
+                    while (mid < (data.Count - 1) && data[++mid].Item2 == target)
                     {
                         targetLocations.Add(data[mid].Item1);
                     }
-                    while (data[--mid2].Item2 == target)
+                    while (mid2 > 0 && data[--mid2].Item2 == target)
                     {
                         targetLocations.Add(data[mid2].Item1);
                     }
